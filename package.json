@@ -1,0 +1,58 @@
+{
+  "name": "tick-tock",
+  "version": "0.1.0",
+  "description": "React & SASS playground to play around with designs of time keeping apps",
+  "watch": true,
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "lint": "./node_modules/.bin/eslint ./src",
+    "eject": "rm -rf .git && rm README.md && echo \"#SOME_PROJECT\" > README.md"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "extract-text-webpack-plugin": "2.1.2",
+    "file-loader": "^0.11.2",
+    "node-sass": "^4.9.0",
+    "pre-commit": "^1.2.2",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.21.0",
+    "tern": "^0.21.0",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "webpack": "^3.12.0",
+    "webpack-dev-server": "^2.11.2"
+  },
+  "pre-commit": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/marcus-grant/tick-tock.git"
+  },
+  "author": "Marcus Grant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/marcus-grant/tick-tock/issues"
+  },
+  "homepage": "https://gitlab.com/marcus-grant/tick-tock#README"
+}
