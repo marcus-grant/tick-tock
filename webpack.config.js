@@ -1,57 +1,72 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// better for future compatibility from guide
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: ['./src/index.js', './src/styles/main.scss'],
+  // mode: 'development',
+  entry: { main: './src/index.js' },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, './public/dist'),
+    // old boilerplate
+    // filename: 'bundle.js',
+    path: path.resolve(__dirname, 'public/dist'),
+    // new filename using caching from http://bit.ly/2JTkHt4
+    filename: '[name].[hash].js',
   },
   module: {
     rules: [
       {
-        test: /\.scss/,
-        use: [
-          {
-            loader: 'style-loader', // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader', // translates css into commonJS
-          },
-          {
-            loader: 'sass-loader', // compiles SASS into CSS
-          },
-        ],
-        // loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']),
-      },
-      // Causes linter errors for files I import through npm?
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   exclude: /node_modules/,
-      //   loaders: 'eslint-loader',
-      // },
-      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: 'babel-loader',
-        options: {
-          presets: ['react', 'stage-0', 'es2015'],
-          plugins: ['transform-class-properties', 'transform-decorators-legacy'],
+        // old boilerplate
+        // loaders: 'babel-loader',
+        // changed according to http://bit.ly/2JTkHt4
+        use: {
+          loader: 'babel-loader',
         },
+        // options: {
+        //   presets: ['react', 'stage-0', 'es2015'],
+        //   plugins: ['transform-class-properties', 'transform-decorators-legacy'],
+        // },
+      },
+      {
+        test: /\.scss$/,
+        // changed to use miniCSSS instead
+        use: [
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader', 'postcss-loader', 'sass-loader'],
+        // keep style loader as fallback since MiniCssExtractPlugin.loader does same?
       },
     ],
   },
   resolve: { extensions: ['.js', '.jsx'] },
+  devtool: 'inline-source-map',
   devServer: {
-    contentBase: './public/',
-    watchContentBase: true,
+    contentBase: path.resolve(__dirname, 'public/dist'),
+    // watchContentBase: true,
+    hot: true,
   },
   plugins: [
-    new ExtractTextPlugin('bundle.css'),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+    // new from http://bit.ly/2JTkHt4
+    new CleanWebpackPlugin('public/dist', {}), // clean out the generated hashed and cached files
+    // minify using this plugin instead of extract
+    new MiniCssExtractPlugin({ filename: 'style.[contenthash].css' }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      hash: true,
+      template: './src/index.html',
+      filename: 'index.html',
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    // This causes the dev server to minify the code...
+    // ...even though both env and flags tell it not to, this is needed...
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify('production'),
+    // }),
+    new WebpackMd5Hash(),
   ],
 };

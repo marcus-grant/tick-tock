@@ -4,4 +4,4 @@ import App from './App';
 
 import './styles/main.scss';
 
-render(React.createElement(App, null), document.getElementById('react-root'));
+render(React.createElement(App), document.getElementById('react-root'));

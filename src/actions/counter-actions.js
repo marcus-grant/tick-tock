@@ -6,7 +6,27 @@
 
 // More on actions: https://redux.js.org/docs/basics/Actions.html
 
-import { INCREMENT_NUM, DECREMENT_NUM, RESET } from '../constants/ActionTypes';
+import {
+  INCREMENT_TIMER,
+  DECREMENT_TIMER,
+  INCREMENT_NUM,
+  DECREMENT_NUM,
+  RESET,
+} from '../constants/ActionTypes';
+
+export function incrementTimer(time) {
+  return {
+    type: INCREMENT_TIMER,
+    time,
+  };
+}
+
+export function decrementTimer(time) {
+  return {
+    type: DECREMENT_TIMER,
+    time,
+  };
+}
 
 export function incrementNum(payload) {
   return {

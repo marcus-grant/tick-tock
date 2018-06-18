@@ -3,6 +3,8 @@
 // Imported in Actions & Reducers
 // Prevents errors due to typos
 
+export const INCREMENT_TIMER = 'INCREMENT_TIMER';
+export const DECREMENT_TIMER = 'DECREMENT_TIMER';
 export const INCREMENT_NUM = 'INCREMENT_NUM';
 export const DECREMENT_NUM = 'DECREMENT_NUM';
 export const RESET = 'RESET';
