@@ -1,36 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 // Todo, this should also be able contained inside a TimerListContainer to store ea. timer info...
 // time being counted shouldn't be stored in the list as some timers aren't being updated when stop
 
-// @connect(store => ({
-//   timeLeft: store,
-// }))
+const mapStateToProps = state => ({ secondsRemaining: state.secondsRemaining });
+const mapDispatchToProps = dispatch => ({ actions: bindActionCreators(actionCreators, dispatch) });
 
+@connect(store => ({
+  secondsRemaining: store,
+}))
 class TimerContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      secondsLeft: 100,
-    };
-  }
-  // tick = () => {
-  //   this.props.decrementTimerAction();
-  //   // this.props.incrementTimerAction();
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     secondsRemaining: 100,
+  //   };
   // }
+
   tick = () => {
-    this.setState(prevState => ({ secondsLeft: prevState.secondsLeft - 1 }));
+    this.setState(prevState => ({ secondsRemaining: prevState.secondsRemaining - 1 }));
     // console.log('clicked');
   }
 
   render() {
-    const { text } = this.props;
+    const { text, secondsRemaining } = this.props;
     return (
       <div className="timer__container">
         <h2>{text}</h2>
-        <h1>{this.state.secondsLeft}</h1>
+        <h1>{this.state.secondsRemaining}</h1>
         <h4>Placeholder for TimerControls</h4>
         <button onClick={this.tick}>tick</button>
       </div>

@@ -10,7 +10,7 @@ import {
   INCREMENT_NUM,
   DECREMENT_NUM,
   RESET,
-} from '../constants/ActionTypes';
+} from '../constants/action-types';
 
 export default function reducer(paramState = 0, action) {
   const state = paramState;

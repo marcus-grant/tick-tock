@@ -5,6 +5,8 @@
 
 export const INCREMENT_TIMER = 'INCREMENT_TIMER';
 export const DECREMENT_TIMER = 'DECREMENT_TIMER';
-export const INCREMENT_NUM = 'INCREMENT_NUM';
-export const DECREMENT_NUM = 'DECREMENT_NUM';
-export const RESET = 'RESET';
+export const RESET_TIMER = 'RESET_TIMER';
+
+export const INCREMENT_NUM = 'INCREMENT_COUNTER';
+export const DECREMENT_NUM = 'DECREMENT_COUNTER';
+export const RESET = 'RESET_COUNTER';

@@ -7,26 +7,10 @@
 // More on actions: https://redux.js.org/docs/basics/Actions.html
 
 import {
-  INCREMENT_TIMER,
-  DECREMENT_TIMER,
   INCREMENT_NUM,
   DECREMENT_NUM,
-  RESET,
-} from '../constants/ActionTypes';
-
-export function incrementTimer(time) {
-  return {
-    type: INCREMENT_TIMER,
-    time,
-  };
-}
-
-export function decrementTimer(time) {
-  return {
-    type: DECREMENT_TIMER,
-    time,
-  };
-}
+  RESET_COUNTER,
+} from '../constants/action-types';
 
 export function incrementNum(payload) {
   return {
@@ -44,7 +28,7 @@ export function decrementNum(payload) {
 
 export function resetCounter(payload) {
   return {
-    type: RESET,
+    type: RESET_COUNTER,
     payload,
   };
 }
