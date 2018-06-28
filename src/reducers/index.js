@@ -2,9 +2,9 @@
 import { combineReducers } from 'redux';
 
 import count from './counter';
-import timerActions from '../reducers/timer-reducer';
+import timer from '../reducers/timer-reducer';
 
-export default combineReducers({ timerActions, count });
+export default combineReducers({ timer, count });
 
 // NOTE: If other reducers are created, combine them like so...
 // export default combineReducers({ count, 2ndReducer, 3rdReducer });

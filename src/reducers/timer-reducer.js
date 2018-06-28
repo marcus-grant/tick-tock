@@ -11,7 +11,7 @@ const initState = {
   secondsRemaining: 0,
 };
 
-const handleTimerActions = (state = initState, action) => {
+const timerReducer = (state = initState, action) => {
   switch (action.type) {
     case INCREMENT_TIMER:
       return { ...state, secondsRemaining: state.secondsRemaining + 1 };
@@ -24,4 +24,4 @@ const handleTimerActions = (state = initState, action) => {
   }
 };
 
-export default handleTimerActions;
+export default timerReducer;

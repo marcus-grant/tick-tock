@@ -13,7 +13,7 @@ const store = createStore(reducer);
 
 const App = () => (
   <Provider store={store}>
-    <TimerContainer text="Test" />
+    <cTimerContainer text="Test" />
   </Provider>
 );
 
