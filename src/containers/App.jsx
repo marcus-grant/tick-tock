@@ -11,15 +11,13 @@ import reducer from '../reducers';
 // const createStoreWithMiddleWare = applyMiddleware()(createStore);
 const store = createStore(reducer);
 
-const App = () => (
-  <Provider store={store}>
-    <TimerContainer text="Test" />
-  </Provider>
-);
+const App = () => {
+  console.log('store state: ', store.getState());
+  return (
+    <Provider store={store}>
+      <TimerContainer text="Test" />
+    </Provider>
+  );
+};
 
-  // <div>
-  //   <h1>Tick Tock</h1>
-  //   <TimerContainer text="Test" />
-  // </div>
-// until webpack is fixed use this placeholder
 export default App;

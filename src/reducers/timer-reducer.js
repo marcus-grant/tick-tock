@@ -8,7 +8,7 @@ import {
 } from '../constants/action-types';
 
 const initState = {
-  secondsRemaining: 0,
+  secondsRemaining: 60,
 };
 
 const timerReducer = (state = initState, action) => {

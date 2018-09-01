@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { incrementNum, decrementNum, resetCounter } from '../actions/counter-actions';
 
-@connect(() => {})
+// @connect(() => {})
 
 class Controls extends Component {
   static propTypes = {
