@@ -2,24 +2,28 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore /* applyMiddleware */ } from 'redux';
 
-// import Counter from './components/Counter';
-import TimerContainer from './TimerContainer';
-import reducer from '../reducers';
+import reducers from '../reducers';
+import GlobalTimer from '../containers/GlobalTimer';
+import ClockContainer from './ClockContainer';
 
 // import '../styles/main.scss';
 
-// const createStoreWithMiddleWare = applyMiddleware()(createStore);
-const store = createStore(reducer);
+// TODO: add something like the link below to change code behavior based
+// on if development mode is running on webpack.
+// link: https://stackoverflow.com/questions/28572380/conditional-build-based-on-environment-using-webpack
+/* eslint-disable no-underscore-dangle */
+const store = createStore(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
+/* eslint-enable */
 
 const App = () => (
   <Provider store={store}>
-    <TimerContainer text="Test" />
+    <GlobalTimer>
+      <ClockContainer />
+    </GlobalTimer>
   </Provider>
 );
 
-  // <div>
-  //   <h1>Tick Tock</h1>
-  //   <TimerContainer text="Test" />
-  // </div>
-// until webpack is fixed use this placeholder
 export default App;
