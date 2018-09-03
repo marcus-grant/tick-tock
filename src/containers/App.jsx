@@ -4,7 +4,7 @@ import { createStore /* applyMiddleware */ } from 'redux';
 
 import reducers from '../reducers';
 import GlobalTimer from '../containers/GlobalTimer';
-import ClockContainer from './ClockContainer';
+import CurrentClocksContainer from './CurrentClocksContainer';
 
 // import '../styles/main.scss';
 
@@ -21,7 +21,7 @@ const store = createStore(
 const App = () => (
   <Provider store={store}>
     <GlobalTimer>
-      <ClockContainer />
+      <CurrentClocksContainer />
     </GlobalTimer>
   </Provider>
 );

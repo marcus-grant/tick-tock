@@ -1,23 +1,35 @@
-export const MONTH = 2592000;
-export const WEEK = 604800;
-export const DAY = 86400;
-export const HOUR = 3600;
-export const HALF_HOUR = 1800;
-export const TWENTY_MINUTES = 1200;
-export const FIFTEEN_MINUTES = 900;
-export const TEN_MINUTES = 600;
-export const FIVE_MINUTES = 300;
-export const MINUTE = 60;
+const MONTH = 2592000;
+const WEEK = 604800;
+const DAY = 86400;
+const HALF_DAY = 43200;
+const EIGHT_HOURS = 28800;
+const FOUR_HOURS = 14400;
+const TWO_HOURS = 7200;
+const HOUR = 3600;
+const HALF_HOUR = 1800;
+const HUNDRED_MINUTES = 6000;
+const TWENTY_MINUTES = 1200;
+const FIFTEEN_MINUTES = 900;
+const TEN_MINUTES = 600;
+const FIVE_MINUTES = 300;
+const TWO_MINUTES = 120;
+const MINUTE = 60;
 
 export default {
   MONTH,
   WEEK,
   DAY,
+  HALF_DAY,
+  EIGHT_HOURS,
+  FOUR_HOURS,
+  TWO_HOURS,
   HOUR,
   HALF_HOUR,
+  HUNDRED_MINUTES,
   TWENTY_MINUTES,
   FIFTEEN_MINUTES,
   TEN_MINUTES,
   FIVE_MINUTES,
+  TWO_MINUTES,
   MINUTE,
 };

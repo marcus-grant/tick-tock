@@ -11,8 +11,8 @@ export const STOP_CLOCK = 'STOP_CLK';
 export const START_CLOCK = 'START_CLK';
 export const ADD_CLOCK = 'ADD_CLK';
 export const REMOVE_CLOCK = 'DEL_CLK';
-export const STOP_GLOBAL_TIMER = 'STOP_GL_TMR';
-export const START_GLOBAL_TIMER = 'START_GL_TMR';
+export const STOP_CLOCK_TICK = 'STOP_TICK';
+export const START_CLOCK_TICK = 'START_TICK';
 
 // Timestamp action types
 export const ADD_TIMESTAMP = 'ADD_STAMP';

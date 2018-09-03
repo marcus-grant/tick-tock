@@ -2,36 +2,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import CLK_TYPE from '../constants/clock-types';
 
-import { clockTick } from '../actions/clocks-actions';
-
-// Todo, this should also be able contained inside a TimerListContainer to store ea. timer info...
-// time being counted shouldn't be stored in the list as some timers aren't being updated when stop
+import PommodoroWidget from '../components/PommodoroWidget';
+import { stopClock } from '../actions/clocks-actions';
 
 /** The main HOC (Higher Order Component) that each clock widget uses to display
  * current clock data, and map dispatched actions for each clock.
  */
-const ClockContainer = (props) => {
-  const { seconds, tick } = props;
+class ClockContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.timeMarkReached = this.timeMarkReached.bind(this);
+  }
 
-  return (
-    <div>
-      <h1>{seconds}</h1>
-      <button onClick={tick}>tick</button>
-    </div>
-  );
-};
+  timeMarkReached() {
+    if (this.props.seconds >= this.props.timeMark) {
+      this.props.stopClock(this.props.id);
+    }
+  }
+
+  render() {
+    console.log('ClockContainer of id = ', this.props.id, ' rendered!');
+    return <PommodoroWidget {...this.props} />;
+  }
+}
 
 ClockContainer.propTypes = {
+  id: PropTypes.string.isRequired,
   seconds: PropTypes.number.isRequired,
-  tick: PropTypes.func.isRequired,
+  timeMark: PropTypes.number.isRequired,
+  markReached: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  type: PropTypes.oneOf([CLK_TYPE.POMMODORO]).isRequired,
+  stopClock: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  seconds: state.clocks[0].seconds,
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  stopClock,
+}, dispatch);
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ tick: clockTick }, dispatch);
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators({ tick: clockTick }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClockContainer);
+export default connect(null, mapDispatchToProps)(ClockContainer);
+// export default connect(mapStateToProps)(ClockContainer);
+// export default ClockContainer;

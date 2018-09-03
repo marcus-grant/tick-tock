@@ -9,26 +9,31 @@ class GlobalTimer extends React.Component {
   constructor(props) {
     super(props);
     this.updateTimer = this.updateTimer.bind(this);
+    this.tick = this.tick.bind(this);
   }
 
   componentDidMount() { this.updateTimer(); }
 
   componentDidUpdate() { this.updateTimer(); }
 
+  componentWillUnmount() { clearInterval(this.tick); }
+
   updateTimer() {
-    if (this.props.isActive) {
-      setInterval(this.props.clockTick, this.props.period * 1000);
+    if (this.props.isTicking) {
+      this.interval = setInterval(this.tick, this.props.period * 1000);
     } else {
-      clearInterval(this.props.clockTick);
+      clearInterval(this.interval);
     }
   }
+
+  tick() { this.props.clockTick(); }
 
   render() { return this.props.children; }
 }
 
 GlobalTimer.propTypes = {
   clockTick: PropTypes.func.isRequired,
-  isActive: PropTypes.bool.isRequired,
+  isTicking: PropTypes.bool.isRequired,
   period: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -37,8 +42,8 @@ GlobalTimer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  period: state.globalTimer.period,
-  isActive: state.globalTimer.isActive,
+  period: state.clock.period,
+  isTicking: state.clock.isTicking,
 });
 
 const mapDispatchToProps = dispatch =>

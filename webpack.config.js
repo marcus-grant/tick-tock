@@ -45,7 +45,8 @@ module.exports = {
     ],
   },
   resolve: { extensions: ['.js', '.jsx'] },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
+  // devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public/dist'),
     // watchContentBase: true,

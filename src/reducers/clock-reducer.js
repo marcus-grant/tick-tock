@@ -4,31 +4,41 @@
 import {
   // DECREMENT_SECONDS,
   CLOCK_TICK,
-  SET_MARK,
-  SET_SECONDS,
-  START_CLOCK,
+  // SET_MARK,
+  // SET_SECONDS,
+  // START_CLOCK,
   STOP_CLOCK,
+  // STOP_CLOCK_TICK,
+  // START_CLOCK_TICK,
+  // START_CLOCK_TICK,
   // ADD_CLOCK,
   // REMOVE_CLOCK,
 } from '../constants/action-types';
 import CLK_TYPE from '../constants/clock-types';
-import TIME_IN_SECS from '../constants/time-constants';
+import SECS from '../constants/time-constants';
+import {
+  tickClocks,
+  stopClockWithID,
+} from './helpers/clocks-reducer-helpers';
 
 
-const initState = [
-  {
-    id: 0,
+const initState = {
+  period: 1,
+  isTicking: true,
+  clocks: [{
+    id: 'dEADb33F',
     seconds: 0,
     isActive: true,
-    clockType: CLK_TYPE.POMMODORO,
-    timeMark: TIME_IN_SECS.TWENTY_MINUTES, // eslint-disable-line
-  },
-];
+    type: CLK_TYPE.POMMODORO,
+    timeMark: SECS.TWENTY_MINUTES,
+    markReached: false,
+  }],
+};
 
 /** Reducer for all state objects related to the many types of clocks widgets --
  * -- that will be used in the future.
  * Each state object uses this data model:
- *   clockID: string (base64 uuid)
+ *   id: number,
  *   seconds: number,
  *   isActive: bool,
  *   clockType: string,
@@ -51,19 +61,19 @@ const initState = [
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case CLOCK_TICK:
-      return state.map((clock) => {
-        if (clock.isActive) {
-          return { ...clock, seconds: clock.seconds + 1 };
-        } return clock;
-      });
-    case SET_MARK:
-      return { ...state, timeMark: action.timeMark };
-    case SET_SECONDS:
-      return { ...state, seconds: action.seconds };
-    case START_CLOCK:
-      return { ...state, isActive: true };
+      return tickClocks(state);
     case STOP_CLOCK:
-      return { ...state, isActive: false };
+      return stopClockWithID(state, action.id);
+    // case SET_MARK:
+    //   return { ...state, timeMark: action.timeMark };
+    // case SET_SECONDS:
+    //   return { ...state, seconds: action.seconds };
+    // case START_CLOCK:
+    //   return { ...state, isActive: true };
+    // case STOP_CLOCK_TICK:
+    //   return { ...state, isActive: false };
+    // case START_CLOCK_TICK:
+    //   return { ...state, isActive: false };
     default:
       return state;
   }
