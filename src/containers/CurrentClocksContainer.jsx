@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import ClockContainer from '../containers/ClockContainer';
-import CLK_TYPE from '../constants/clock-types';
-
 
 /** The container for the collection of clocks that are currently in use.
  * This includes clocks that are currently paused (ie inactive).
@@ -17,22 +15,15 @@ import CLK_TYPE from '../constants/clock-types';
  */
 const CurrentClocksContainer = props => (
   <div className="clks-wkspc__wrpr">
-    {props.clocks.map(clk =>
-      <ClockContainer {...clk} key={`clk_${clk.id}`} />)}
+    {props.allIds.map(id =>
+      <ClockContainer id={id} key={`clk_${id}`} />)}
   </div>
 );
 
 CurrentClocksContainer.propTypes = {
   /** Array of mapped state objects for current clock widget data */
-  clocks: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    seconds: PropTypes.number.isRequired,
-    timeMark: PropTypes.number.isRequired,
-    markReached: PropTypes.bool.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    type: PropTypes.oneOf([CLK_TYPE.POMMODORO]),
-  })).isRequired,
+  allIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
-const mapStateToProps = state => ({ clocks: state.clock.clocks });
+const mapStateToProps = state => ({ allIds: state.clock.allIds });
 
 export default connect(mapStateToProps)(CurrentClocksContainer);

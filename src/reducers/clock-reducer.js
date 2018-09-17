@@ -3,25 +3,26 @@
 
 import {
   // DECREMENT_SECONDS,
+  INC_SECONDS,
   CLOCK_TICK,
+  RESET_CLOCK,
   // SET_MARK,
   // SET_SECONDS,
   // START_CLOCK,
-  STOP_CLOCK,
-  // STOP_CLOCK_TICK,
-  // START_CLOCK_TICK,
-  // START_CLOCK_TICK,
+  DEACTIVATE_CLOCK,
+  ACTIVATE_CLOCK,
   // ADD_CLOCK,
   // REMOVE_CLOCK,
 } from '../constants/action-types';
 import CLK_TYPE from '../constants/clock-types';
 import SECS from '../constants/time-constants';
-import {
-  tickClocks,
-  stopClockWithID,
-} from './helpers/clocks-reducer-helpers';
+// import {
+//   tickClocks,
+//   stopClockWithID,
+// } from './helpers/clocks-reducer-helpers';
 
-
+/*
+//Un-Normalized State
 const initState = {
   period: 1,
   isTicking: true,
@@ -33,6 +34,121 @@ const initState = {
     timeMark: SECS.TWENTY_MINUTES,
     markReached: false,
   }],
+};
+*/
+// Properly normalize with selectors from http://bit.ly/2Mx8Npu
+const initState = {
+  globalClock: {
+    period: 1,
+    isTicking: true,
+  },
+  activeIds: ['dEADb33F'],
+  allIds: ['dEADb33F'],
+  byId: {
+    dEADb33F: {
+      id: 'dEADb33F',
+      seconds: 0,
+      isActive: true,
+      type: CLK_TYPE.POMMODORO,
+      timeMark: SECS.TWENTY_MINUTES,
+      // timeMark: 2,
+      markReached: false,
+    },
+  },
+};
+
+/*
+// ActiveOnly selector, try later for reuse, might not help much and probably slow
+const activeOnly = (state) => {
+  const activeClks = state.activeIds.reduce((clks, id) => ({
+    [id]: Object.assign({}, clks[id]),
+  }));
+  console.log('activeOnly = \n', activeClks);
+  return activeClks;
+};
+*/
+
+// TODO: Find the shared operations that can be pulled out into individual funcs
+// - Certainly some func that checks activeIds & update globalClock.isTicking
+// TODO: Flatten when confirmed working
+const tickClocks = (state) => {
+  const newActvClks = state.activeIds.reduce((clks, id) => {
+    const clk = state.byId[id];
+    // console.log('incAct.clk = ', clk);
+    const seconds = clk.seconds + 1;
+    const markReached = seconds >= clk.timeMark;
+    // console.log('incActive.seconds = ', seconds);
+    const newClk = {
+      [id]: {
+        ...clk,
+        seconds,
+        markReached,
+        isActive: !markReached,
+      },
+    };
+    // console.log('incActive.newClk = ', newClk);
+    return newClk;
+  }, {});
+  const byId = { ...state.byId, ...newActvClks };
+  const newState = { ...state, byId };
+  // console.log('INC_SECONDS.newState:\n', newState);
+  return newState;
+};
+
+// TODO: Flatten when confirmed working
+const deactivateExpired = (state) => {
+  const expiredIds = state.activeIds.filter(id => !state.byId[id].isActive);
+  const activeIds = state.activeIds.filter((id) => {
+    const idExpired = expiredIds.includes(id);
+    // !expiredIds.has(id)
+    return !idExpired;
+  });
+  const isTicking = activeIds.length > 0;
+  return {
+    ...state,
+    globalClock: { period: state.globalClock.period, isTicking },
+    activeIds,
+  };
+};
+
+// TODO: Flatten & Pull out reusable operations
+const deactivateClockOfId = (state, id) => {
+  const oldClk = state.byId[id];
+  const newClk = { [id]: { ...oldClk, isActive: false } };
+  const byId = { ...state.byId, ...newClk };
+  const activeIds = state.activeIds.filter(currId => currId !== id);
+  const isTicking = activeIds > 0;
+  const globalClock = { period: state.globalClock.period, isTicking };
+  return {
+    ...state,
+    activeIds,
+    byId,
+    globalClock,
+  };
+};
+
+// TODO: Flatten & Pull out reusable blocks
+const activateClockOfId = (state, id) => {
+  const oldClk = state.byId[id];
+  const newClk = { [id]: { ...oldClk, isActive: true } };
+  const byId = { ...state.byId, ...newClk };
+  const activeIds = state.activeIds.concat(id);
+  const isTicking = true;
+  const globalClock = { period: state.globalClock.period, isTicking };
+  return {
+    ...state,
+    activeIds,
+    byId,
+    globalClock,
+  };
+};
+
+// TODO: Flatten & Pull out reusable blocks
+const zeroSecondsOfClockOfId = (state, id) => {
+  const oldClk = state.byId[id];
+  const newClk = { [id]: { ...oldClk, seconds: 0 } };
+  const byId = { ...state.byId, ...newClk };
+  return { ...state, byId };
 };
 
 /** Reducer for all state objects related to the many types of clocks widgets --
@@ -61,19 +177,19 @@ const initState = {
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case CLOCK_TICK:
-      return tickClocks(state);
-    case STOP_CLOCK:
-      return stopClockWithID(state, action.id);
+      return deactivateExpired(tickClocks(state));
+    case DEACTIVATE_CLOCK:
+      return deactivateClockOfId(state, action.id);
+    case ACTIVATE_CLOCK:
+      return activateClockOfId(state, action.id);
+    case RESET_CLOCK:
+      return zeroSecondsOfClockOfId(state, action.id);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };
     // case SET_SECONDS:
     //   return { ...state, seconds: action.seconds };
     // case START_CLOCK:
     //   return { ...state, isActive: true };
-    // case STOP_CLOCK_TICK:
-    //   return { ...state, isActive: false };
-    // case START_CLOCK_TICK:
-    //   return { ...state, isActive: false };
     default:
       return state;
   }

@@ -1,9 +1,11 @@
 import {
-  // SET_SECONDS, // TODO: This should be RESET_CLOCK
   // SET_MARK,
+  // INC_SECONDS,
   CLOCK_TICK,
+  RESET_CLOCK,
   // START_CLOCK,
-  STOP_CLOCK,
+  DEACTIVATE_CLOCK,
+  ACTIVATE_CLOCK,
   // ADD_CLOCK,
   // REMOVE_CLOCK,
 } from '../constants/action-types';
@@ -11,6 +13,10 @@ import {
 // TODO: Implement increment/decrement amounts for different global clock times.
 // TODO: Implement add/remove clock when clock list implemented
 // export function setMark(id, timeMark) { return { type: SET_MARK, id, timeMark }; }
+// export function incrementSeconds() { return { type: INC_SECONDS }; }
+export function deactivateClock(id) { return { type: DEACTIVATE_CLOCK, id }; }
+export function activateClock(id) { return { type: ACTIVATE_CLOCK, id }; }
 export function clockTick() { return { type: CLOCK_TICK }; }
-export function stopClock(id) { return { type: STOP_CLOCK, id }; }
+export function resetClock(id) { return { type: RESET_CLOCK, id }; }
+// export function clockTick() { return { type: CLOCK_TICK }; }
 // export function startClock(id) { return { type: START_CLOCK, id }; }
