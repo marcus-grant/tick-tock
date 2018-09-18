@@ -9,7 +9,7 @@ import { activateClock, deactivateClock, resetClock } from '../actions/clocks-ac
 /** The main HOC (Higher Order Component) that each clock widget uses to display
  * current clock data, and map dispatched actions for each clock.
  */
-class ClockContainer extends React.Component {
+class CounterContainer extends React.Component {
   constructor(props) {
     super(props);
     this.toggleSettingsPanel = this.toggleSettingsPanel.bind(this);
@@ -42,7 +42,7 @@ class ClockContainer extends React.Component {
       </div>
     );
     const CDownWidget = <CountDownTimerWidget {...nonFuncTimerProps} {...timerDispatches} />;
-    // console.log('ClockContainer of id = ', props.id, ' rendered!');
+    // console.log('CounterContainer of id = ', props.id, ' rendered!');
     return (
       <div className="clk-wdgt__wrpr">
         <button
@@ -55,9 +55,9 @@ class ClockContainer extends React.Component {
     );
   }
 }
-// class ClockContainer extends React.Component {
+// class CounterContainer extends React.Component {
 
-ClockContainer.propTypes = {
+CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
   seconds: PropTypes.number.isRequired,
   timeMark: PropTypes.number.isRequired,
@@ -87,4 +87,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClockContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CounterContainer);

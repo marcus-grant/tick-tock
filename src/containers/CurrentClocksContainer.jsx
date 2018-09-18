@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ClockContainer from '../containers/ClockContainer';
+import ClockContainer from '../containers/CounterContainer';
 
 /** The container for the collection of clocks that are currently in use.
  * This includes clocks that are currently paused (ie inactive).
@@ -13,17 +13,17 @@ import ClockContainer from '../containers/ClockContainer';
  * Then it renders them all in order.
  * Doesn't handle dispatching actions, each individual clock does.
  */
-const CurrentClocksContainer = props => (
+const CurrentCountersContainer = props => (
   <div className="clks-wkspc__wrpr">
     {props.allIds.map(id =>
       <ClockContainer id={id} key={`clk_${id}`} />)}
   </div>
 );
 
-CurrentClocksContainer.propTypes = {
+CurrentCountersContainer.propTypes = {
   /** Array of mapped state objects for current clock widget data */
   allIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 const mapStateToProps = state => ({ allIds: state.clock.allIds });
 
-export default connect(mapStateToProps)(CurrentClocksContainer);
+export default connect(mapStateToProps)(CurrentCountersContainer);
