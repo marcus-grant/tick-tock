@@ -3,7 +3,7 @@
 
 import {
   // DECREMENT_SECONDS,
-  INC_SECONDS,
+  // INC_SECONDS,
   CLOCK_TICK,
   RESET_CLOCK,
   // SET_MARK,
@@ -50,8 +50,8 @@ const initState = {
       seconds: 0,
       isActive: true,
       type: CLK_TYPE.POMMODORO,
-      timeMark: SECS.TWENTY_MINUTES,
-      // timeMark: 2,
+      // timeMark: SECS.TWENTY_MINUTES,
+      timeMark: 2,
       markReached: false,
     },
   },
@@ -130,6 +130,7 @@ const deactivateClockOfId = (state, id) => {
 // TODO: Flatten & Pull out reusable blocks
 const activateClockOfId = (state, id) => {
   const oldClk = state.byId[id];
+  if (oldClk.markReached) return state;
   const newClk = { [id]: { ...oldClk, isActive: true } };
   const byId = { ...state.byId, ...newClk };
   const activeIds = state.activeIds.concat(id);
@@ -147,6 +148,13 @@ const activateClockOfId = (state, id) => {
 const zeroSecondsOfClockOfId = (state, id) => {
   const oldClk = state.byId[id];
   const newClk = { [id]: { ...oldClk, seconds: 0 } };
+  const byId = { ...state.byId, ...newClk };
+  return { ...state, byId };
+};
+
+const resetMarkReached = (state, id) => {
+  const oldClk = state.byId[id];
+  const newClk = { [id]: { ...oldClk, markReached: false } };
   const byId = { ...state.byId, ...newClk };
   return { ...state, byId };
 };
@@ -183,7 +191,7 @@ const clocksReducer = (state = initState, action) => {
     case ACTIVATE_CLOCK:
       return activateClockOfId(state, action.id);
     case RESET_CLOCK:
-      return zeroSecondsOfClockOfId(state, action.id);
+      return resetMarkReached(zeroSecondsOfClockOfId(state, action.id), action.id);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };
     // case SET_SECONDS:
