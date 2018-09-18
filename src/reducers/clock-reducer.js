@@ -96,7 +96,7 @@ const tickClocks = (state) => {
 };
 
 // TODO: Flatten when confirmed working
-const deactivateExpired = (state) => {
+const deactivateFinishedCounters = (state) => {
   const expiredIds = state.activeIds.filter(id => !state.byId[id].isActive);
   const activeIds = state.activeIds.filter((id) => {
     const idExpired = expiredIds.includes(id);
@@ -112,7 +112,7 @@ const deactivateExpired = (state) => {
 };
 
 // TODO: Flatten & Pull out reusable operations
-const deactivateClockOfId = (state, id) => {
+const deactivateCounter = (state, id) => {
   const oldClk = state.byId[id];
   const newClk = { [id]: { ...oldClk, isActive: false } };
   const byId = { ...state.byId, ...newClk };
@@ -128,7 +128,7 @@ const deactivateClockOfId = (state, id) => {
 };
 
 // TODO: Flatten & Pull out reusable blocks
-const activateClockOfId = (state, id) => {
+const activateCounter = (state, id) => {
   const oldClk = state.byId[id];
   if (oldClk.markReached) return state;
   const newClk = { [id]: { ...oldClk, isActive: true } };
@@ -145,7 +145,7 @@ const activateClockOfId = (state, id) => {
 };
 
 // TODO: Flatten & Pull out reusable blocks
-const zeroSecondsOfClockOfId = (state, id) => {
+const zeroCounter = (state, id) => {
   const oldClk = state.byId[id];
   const newClk = { [id]: { ...oldClk, seconds: 0 } };
   const byId = { ...state.byId, ...newClk };
@@ -157,6 +157,10 @@ const resetMarkReached = (state, id) => {
   const newClk = { [id]: { ...oldClk, markReached: false } };
   const byId = { ...state.byId, ...newClk };
   return { ...state, byId };
+};
+
+const resetClock = (state, id) => {
+  return resetMarkReached(zeroCounter(state, id), id);
 };
 
 /** Reducer for all state objects related to the many types of clocks widgets --
@@ -185,13 +189,13 @@ const resetMarkReached = (state, id) => {
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case CLOCK_TICK:
-      return deactivateExpired(tickClocks(state));
+      return deactivateFinishedCounters(tickClocks(state));
     case DEACTIVATE_CLOCK:
-      return deactivateClockOfId(state, action.id);
+      return deactivateCounter(state, action.id);
     case ACTIVATE_CLOCK:
-      return activateClockOfId(state, action.id);
+      return activateCounter(state, action.id);
     case RESET_CLOCK:
-      return resetMarkReached(zeroSecondsOfClockOfId(state, action.id), action.id);
+      return resetClock(state, action.id);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };
     // case SET_SECONDS:
