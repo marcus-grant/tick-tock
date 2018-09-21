@@ -15,7 +15,7 @@ import {
   // REMOVE_CLOCK,
 } from '../constants/action-types';
 import CLK_TYPE from '../constants/clock-types';
-import SECS from '../constants/time-constants';
+// import SECS from '../constants/time-constants';
 // import {
 //   tickClocks,
 //   stopClockWithID,
@@ -38,7 +38,7 @@ const initState = {
 */
 // Properly normalize with selectors from http://bit.ly/2Mx8Npu
 const initState = {
-  globalClock: {
+  globalTimer: {
     period: 1,
     isTicking: true,
   },
@@ -47,69 +47,70 @@ const initState = {
   byId: {
     dEADb33F: {
       id: 'dEADb33F',
-      seconds: 0,
+      count: 0,
       isActive: true,
       type: CLK_TYPE.POMMODORO,
-      // timeMark: SECS.TWENTY_MINUTES,
-      timeMark: 2,
+      // stopCount: SECS.TWENTY_MINUTES,
+      stopCount: 2,
       markReached: false,
     },
   },
 };
 
-/*
+// const updateSinglePropertyById = (state, id, propUpdater) =>
+//   ({ [id]: Object.assign({ ...state.byId[id] }, propUpdater(state.byId[id])) });
+const shouldStop = cnt => cnt.count >= cnt.stopCount;
+
+const counterIncrementer = cnt => ({ ...cnt, count: cnt.count + 1 });
 // ActiveOnly selector, try later for reuse, might not help much and probably slow
-const activeOnly = (state) => {
-  const activeClks = state.activeIds.reduce((clks, id) => ({
-    [id]: Object.assign({}, clks[id]),
-  }));
-  console.log('activeOnly = \n', activeClks);
-  return activeClks;
+
+const counterStopper = cnt => (
+  {
+    ...cnt, markReached: shouldStop(cnt), isActive: !shouldStop(cnt),
+  });
+
+const updateAllActive = (state, propUpdater) => {
+  const result = state.activeIds.reduce((item, id) => (
+    {
+      [id]: propUpdater(state.byId[id]),
+    }), {});
+  return result;
 };
-*/
 
 // TODO: Find the shared operations that can be pulled out into individual funcs
 // - Certainly some func that checks activeIds & update globalClock.isTicking
 // TODO: Flatten when confirmed working
-const tickClocks = (state) => {
-  const newActvClks = state.activeIds.reduce((clks, id) => {
-    const clk = state.byId[id];
-    // console.log('incAct.clk = ', clk);
-    const seconds = clk.seconds + 1;
-    const markReached = seconds >= clk.timeMark;
-    // console.log('incActive.seconds = ', seconds);
-    const newClk = {
-      [id]: {
-        ...clk,
-        seconds,
-        markReached,
-        isActive: !markReached,
-      },
-    };
-    // console.log('incActive.newClk = ', newClk);
-    return newClk;
-  }, {});
-  const byId = { ...state.byId, ...newActvClks };
-  const newState = { ...state, byId };
-  // console.log('INC_SECONDS.newState:\n', newState);
-  return newState;
-};
+const incrementActiveCounters = state => ({
+  ...state,
+  byId: {
+    ...state.byId,
+    ...updateAllActive(state, counterIncrementer),
+  },
+});
 
-// TODO: Flatten when confirmed working
-const deactivateFinishedCounters = (state) => {
-  const expiredIds = state.activeIds.filter(id => !state.byId[id].isActive);
-  const activeIds = state.activeIds.filter((id) => {
-    const idExpired = expiredIds.includes(id);
-    // !expiredIds.has(id)
-    return !idExpired;
-  });
-  const isTicking = activeIds.length > 0;
-  return {
+const updateActiveIds = state => ({
+  ...state,
+  activeIds: state.activeIds.filter(id => state.byId[id].isActive),
+});
+
+const shouldStopGlobalTimer = state => state.activeIds.length <= 0;
+
+const updateGlobalTimer = state => ({
+  ...state,
+  globalTimer: {
+    ...state.globalTimer,
+    isTicking: !shouldStopGlobalTimer(state),
+  },
+});
+
+const deactivateFinishedCounters = state =>
+  ({
     ...state,
-    globalClock: { period: state.globalClock.period, isTicking },
-    activeIds,
-  };
-};
+    byId: {
+      ...state.byId,
+      ...updateAllActive(state, counterStopper),
+    },
+  });
 
 // TODO: Flatten & Pull out reusable operations
 const deactivateCounter = (state, id) => {
@@ -118,12 +119,12 @@ const deactivateCounter = (state, id) => {
   const byId = { ...state.byId, ...newClk };
   const activeIds = state.activeIds.filter(currId => currId !== id);
   const isTicking = activeIds > 0;
-  const globalClock = { period: state.globalClock.period, isTicking };
+  const globalTimer = { period: state.globalTimer.period, isTicking };
   return {
     ...state,
     activeIds,
     byId,
-    globalClock,
+    globalTimer,
   };
 };
 
@@ -135,19 +136,29 @@ const activateCounter = (state, id) => {
   const byId = { ...state.byId, ...newClk };
   const activeIds = state.activeIds.concat(id);
   const isTicking = true;
-  const globalClock = { period: state.globalClock.period, isTicking };
+  const globalTimer = { period: state.globalTimer.period, isTicking };
   return {
     ...state,
     activeIds,
     byId,
-    globalClock,
+    globalTimer,
   };
 };
+
+const tickActiveCounters = state => ((
+  updateGlobalTimer(( // Lastly, update global timer if no active counters
+    updateActiveIds(( // Update activeIds: using updated counter props
+      deactivateFinishedCounters(( // Update isActive, markReached on cntrs
+        incrementActiveCounters(state) // But first, increment counters
+      ))
+    ))
+  ))
+));
 
 // TODO: Flatten & Pull out reusable blocks
 const zeroCounter = (state, id) => {
   const oldClk = state.byId[id];
-  const newClk = { [id]: { ...oldClk, seconds: 0 } };
+  const newClk = { [id]: { ...oldClk, count: 0 } };
   const byId = { ...state.byId, ...newClk };
   return { ...state, byId };
 };
@@ -159,11 +170,9 @@ const resetMarkReached = (state, id) => {
   return { ...state, byId };
 };
 
-const resetClock = (state, id) => {
-  return resetMarkReached(zeroCounter(state, id), id);
-};
+const resetCounter = (state, id) => resetMarkReached(zeroCounter(state, id), id);
 
-/** Reducer for all state objects related to the many types of clocks widgets --
+/** Reducer for all state objects related to the many types of counter based widgets --
  * -- that will be used in the future.
  * Each state object uses this data model:
  *   id: number,
@@ -174,9 +183,9 @@ const resetClock = (state, id) => {
  *   name: The name given to the clock (future update)
  * clockID is somekind of either uint or string of fixed chars, --
  * -- a UUID tied to each widget to manage data relations.
- * seconds: all clocks will use a float number as the primary unit --
- * of data to display time, be it as a timer, stopwatch, or a regular clock.
- * isActive: A boolean to be used when updating time. Some clock widgets --
+ * seconds: all counters will use a float number as the primary unit --
+ * of data to display time, be it as a timer, stopwatch, or a regular counter.
+ * isActive: A boolean to be used when updating time. Some widgets --
  * will not always update its listed time, the reducer needs to know this.
  * clockType: A string enumerated in '../constants/clock-types.js'.
  * Used to help ClockContainer HOC render the right kind of widget component.
@@ -189,13 +198,15 @@ const resetClock = (state, id) => {
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case CLOCK_TICK:
-      return deactivateFinishedCounters(tickClocks(state));
+      // debugger; // eslint-disable-line
+      // return deactivateFinishedCounters(tickClocks(state));
+      return tickActiveCounters(state);
     case DEACTIVATE_CLOCK:
       return deactivateCounter(state, action.id);
     case ACTIVATE_CLOCK:
       return activateCounter(state, action.id);
     case RESET_CLOCK:
-      return resetClock(state, action.id);
+      return resetCounter(state, action.id);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };
     // case SET_SECONDS:

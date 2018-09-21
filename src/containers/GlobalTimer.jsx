@@ -42,8 +42,8 @@ GlobalTimer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  period: state.clock.globalClock.period,
-  isTicking: state.clock.globalClock.isTicking,
+  period: state.clock.globalTimer.period,
+  isTicking: state.clock.globalTimer.isTicking,
 });
 
 const mapDispatchToProps = dispatch =>

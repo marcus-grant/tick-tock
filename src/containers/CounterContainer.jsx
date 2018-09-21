@@ -25,11 +25,11 @@ class CounterContainer extends React.Component {
   render() {
     const { settingsVisible } = this.state;
     const {
-      seconds,
-      timeMark,
+      count,
+      stopCount,
       isActive,
     } = this.props;
-    const nonFuncTimerProps = { seconds, timeMark, isActive };
+    const nonFuncTimerProps = { count, stopCount, isActive };
     // TODO: Add conditional for handle clicks to checks props if dispatch needd
     const timerDispatches = {
       onPauseClick: this.props.handlePauseClick,
@@ -59,8 +59,8 @@ class CounterContainer extends React.Component {
 
 CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
-  seconds: PropTypes.number.isRequired,
-  timeMark: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  stopCount: PropTypes.number.isRequired,
   markReached: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([CLK_TYPE.POMMODORO, CLK_TYPE.COUNT_DOWN]).isRequired,

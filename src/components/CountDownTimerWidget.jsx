@@ -8,7 +8,7 @@ import TimerControlBar from './controls/timer-controls';
 
 // TODO: This should be a HOC for a common ClockWidget Component
 const CountDownTimerWidget = (props) => {
-  const remaining = props.timeMark - props.seconds;
+  const remaining = props.stopCount - props.count;
   const {
     isActive,
     onStartClick,
@@ -30,8 +30,8 @@ const CountDownTimerWidget = (props) => {
 };
 
 CountDownTimerWidget.propTypes = {
-  seconds: PropTypes.number.isRequired,
-  timeMark: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  stopCount: PropTypes.number.isRequired,
   isActive: PropTypes.bool.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
