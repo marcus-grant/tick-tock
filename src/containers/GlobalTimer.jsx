@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { clockTick } from '../actions/clocks-actions';
+import {
+  clockTick,
+  stopGlobalTimer,
+  startGlobalTimer,
+} from '../actions/clocks-actions';
 
 class GlobalTimer extends React.Component {
   constructor(props) {
@@ -20,7 +24,7 @@ class GlobalTimer extends React.Component {
 
   updateTimer() {
     if (this.props.isTicking) {
-      this.interval = setInterval(this.tick, this.props.period * 1000);
+      startGlobalTimer(this.tick, this.props.period * 1000);
     } else {
       clearInterval(this.interval);
     }
@@ -33,6 +37,8 @@ class GlobalTimer extends React.Component {
 
 GlobalTimer.propTypes = {
   clockTick: PropTypes.func.isRequired,
+  stopGlobalTimer: PropTypes.func.isRequired,
+  startGlobalTimer: PropTypes.func.isRequired,
   isTicking: PropTypes.bool.isRequired,
   period: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([
@@ -47,6 +53,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ clockTick }, dispatch);
+  bindActionCreators({ clockTick, stopGlobalTimer, startGlobalTimer }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(GlobalTimer);

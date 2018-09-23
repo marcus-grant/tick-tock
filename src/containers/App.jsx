@@ -1,9 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore /* applyMiddleware */ } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
+import timerMiddleware from '../middleware/timer-middleware';
 import reducers from '../reducers';
-import GlobalTimer from '../containers/GlobalTimer';
+// import GlobalTimer from '../containers/GlobalTimer';
 import CurrentClocksContainer from './CurrentClocksContainer';
 
 // import '../styles/main.scss';
@@ -15,14 +16,13 @@ import CurrentClocksContainer from './CurrentClocksContainer';
 const store = createStore(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(timerMiddleware),
 );
 /* eslint-enable */
 
 const App = () => (
   <Provider store={store}>
-    <GlobalTimer>
-      <CurrentClocksContainer />
-    </GlobalTimer>
+    <CurrentClocksContainer />
   </Provider>
 );
 
