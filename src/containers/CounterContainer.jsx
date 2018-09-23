@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CLK_TYPE from '../constants/clock-types';
 
 import CountDownTimerWidget from '../components/CountDownTimerWidget';
-import { activateClock, deactivateClock, resetClock } from '../actions/clocks-actions';
+import { activateClock, deactivateClock, resetClock } from '../actions/counters-action-creators';
 
 /** The main HOC (Higher Order Component) that each clock widget uses to display
  * current clock data, and map dispatched actions for each clock.
@@ -61,7 +61,7 @@ CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   stopCount: PropTypes.number.isRequired,
-  markReached: PropTypes.bool.isRequired,
+  // finished: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([CLK_TYPE.POMMODORO, CLK_TYPE.COUNT_DOWN]).isRequired,
   handleStartClick: PropTypes.func.isRequired,
@@ -70,7 +70,7 @@ CounterContainer.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) =>
-  ({ ...state.clock.byId[ownProps.id] });
+  ({ ...state.counters.byId[ownProps.id] });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handlePauseClick: () => {

@@ -3,21 +3,10 @@
 // Imported in Actions & Reducers
 // Prevents errors due to typos
 
-// export const SET_SECONDS = 'SET_SEC'; // TODO: Redundant?
-export const CLOCK_TICK = 'CLK_TICK';
-// export const SET_SECONDS = 'SET_SEC';
-export const RESET_CLOCK = 'RST_CLK';
-export const INC_SECONDS = 'INC_SEC';
-export const SET_MARK = 'SET_MARK';
-export const DEACTIVATE_CLOCK = 'DEACT_CLK';
-export const ACTIVATE_CLOCK = 'ACT_CLK';
-export const STOP_CLOCK = 'STOP_CLK';
-export const START_CLOCK = 'START_CLK';
-export const ADD_CLOCK = 'ADD_CLK';
-export const REMOVE_CLOCK = 'DEL_CLK';
-export const START_TIMER = 'START_TMR';
-export const STOP_TIMER = 'STOP_TMR';
-
-// Timestamp action types
-export const ADD_TIMESTAMP = 'ADD_STAMP';
-export const REMOVE_TIMESTAMP = 'DEL_STAMP';
+export const TICK_COUNTER = 'CNT_TCK';
+export const RESET_COUNTER = 'CNT_RST';
+export const SET_COUNTER_STOP = 'CNT_SET_STOP';
+export const DEACTIVATE_COUNTER = 'CNT_DACT';
+export const ACTIVATE_COUNTER = 'CNT_ACT';
+export const ADD_COUNTER = 'CNT_ADD';
+export const REMOVE_COUNTER = 'CNT_DEL';

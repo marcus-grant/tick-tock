@@ -2,15 +2,10 @@
 // These functions reduce the Action objects to simple state changes for the store.
 
 import {
-  // DECREMENT_SECONDS,
-  // INC_SECONDS,
-  CLOCK_TICK,
-  RESET_CLOCK,
-  // SET_MARK,
-  // SET_SECONDS,
-  // START_CLOCK,
-  DEACTIVATE_CLOCK,
-  ACTIVATE_CLOCK,
+  TICK_COUNTER,
+  RESET_COUNTER,
+  DEACTIVATE_COUNTER,
+  ACTIVATE_COUNTER,
   // ADD_CLOCK,
   // REMOVE_CLOCK,
 } from '../constants/action-types';
@@ -21,27 +16,9 @@ import CLK_TYPE from '../constants/clock-types';
 //   stopClockWithID,
 // } from './helpers/clocks-reducer-helpers';
 
-/*
-//Un-Normalized State
-const initState = {
-  period: 1,
-  isTicking: true,
-  clocks: [{
-    id: 'dEADb33F',
-    seconds: 0,
-    isActive: true,
-    type: CLK_TYPE.POMMODORO,
-    timeMark: SECS.TWENTY_MINUTES,
-    markReached: false,
-  }],
-};
-*/
 // Properly normalize with selectors from http://bit.ly/2Mx8Npu
 const initState = {
-  globalTimer: {
-    period: 1,
-    isTicking: true,
-  },
+  countersPeriod: 1,
   activeIds: ['dEADb33F'],
   allIds: ['dEADb33F'],
   byId: {
@@ -52,22 +29,21 @@ const initState = {
       type: CLK_TYPE.POMMODORO,
       // stopCount: SECS.TWENTY_MINUTES,
       stopCount: 2,
-      markReached: false,
+      finished: false,
     },
   },
 };
 
 // const updateSinglePropertyById = (state, id, propUpdater) =>
 //   ({ [id]: Object.assign({ ...state.byId[id] }, propUpdater(state.byId[id])) });
-const shouldStop = cnt => cnt.count >= cnt.stopCount;
+const shouldStop = cntr => cntr.count >= cntr.stopCount;
 
-const counterIncrementer = cnt => ({ ...cnt, count: cnt.count + 1 });
+const counterIncrementer = cntr => ({ ...cntr, count: cntr.count + 1 });
 // ActiveOnly selector, try later for reuse, might not help much and probably slow
 
-const counterStopper = cnt => (
-  {
-    ...cnt, markReached: shouldStop(cnt), isActive: !shouldStop(cnt),
-  });
+const counterStopper = cntr => ({
+  ...cntr, finished: shouldStop(cntr), isActive: !shouldStop(cntr),
+});
 
 const updateAllActive = (state, propUpdater) => {
   const result = state.activeIds.reduce((item, id) => (
@@ -93,16 +69,6 @@ const updateActiveIds = state => ({
   activeIds: state.activeIds.filter(id => state.byId[id].isActive),
 });
 
-const shouldStopGlobalTimer = state => state.activeIds.length <= 0;
-
-const updateGlobalTimer = state => ({
-  ...state,
-  globalTimer: {
-    ...state.globalTimer,
-    isTicking: !shouldStopGlobalTimer(state),
-  },
-});
-
 const deactivateFinishedCounters = state =>
   ({
     ...state,
@@ -118,13 +84,10 @@ const deactivateCounter = (state, id) => {
   const newClk = { [id]: { ...oldClk, isActive: false } };
   const byId = { ...state.byId, ...newClk };
   const activeIds = state.activeIds.filter(currId => currId !== id);
-  const isTicking = activeIds > 0;
-  const globalTimer = { period: state.globalTimer.period, isTicking };
   return {
     ...state,
     activeIds,
     byId,
-    globalTimer,
   };
 };
 
@@ -135,22 +98,17 @@ const activateCounter = (state, id) => {
   const newClk = { [id]: { ...oldClk, isActive: true } };
   const byId = { ...state.byId, ...newClk };
   const activeIds = state.activeIds.concat(id);
-  const isTicking = true;
-  const globalTimer = { period: state.globalTimer.period, isTicking };
   return {
     ...state,
     activeIds,
     byId,
-    globalTimer,
   };
 };
 
 const tickActiveCounters = state => ((
-  updateGlobalTimer(( // Lastly, update global timer if no active counters
-    updateActiveIds(( // Update activeIds: using updated counter props
-      deactivateFinishedCounters(( // Update isActive, markReached on cntrs
-        incrementActiveCounters(state) // But first, increment counters
-      ))
+  updateActiveIds(( // Lastly update activeIds: using updated counter props
+    deactivateFinishedCounters(( // Update isActive, markReached on cntrs
+      incrementActiveCounters(state) // But first, increment counters
     ))
   ))
 ));
@@ -163,14 +121,15 @@ const zeroCounter = (state, id) => {
   return { ...state, byId };
 };
 
-const resetMarkReached = (state, id) => {
+const resetFinishedFlag = (state, id) => {
   const oldClk = state.byId[id];
   const newClk = { [id]: { ...oldClk, markReached: false } };
   const byId = { ...state.byId, ...newClk };
   return { ...state, byId };
 };
 
-const resetCounter = (state, id) => resetMarkReached(zeroCounter(state, id), id);
+const resetCounter = (state, id) =>
+  resetFinishedFlag(zeroCounter(state, id), id);
 
 /** Reducer for all state objects related to the many types of counter based widgets --
  * -- that will be used in the future.
@@ -197,15 +156,15 @@ const resetCounter = (state, id) => resetMarkReached(zeroCounter(state, id), id)
  */
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
-    case CLOCK_TICK:
+    case TICK_COUNTER:
       // debugger; // eslint-disable-line
       // return deactivateFinishedCounters(tickClocks(state));
       return tickActiveCounters(state);
-    case DEACTIVATE_CLOCK:
+    case DEACTIVATE_COUNTER:
       return deactivateCounter(state, action.id);
-    case ACTIVATE_CLOCK:
+    case ACTIVATE_COUNTER:
       return activateCounter(state, action.id);
-    case RESET_CLOCK:
+    case RESET_COUNTER:
       return resetCounter(state, action.id);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };

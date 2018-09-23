@@ -1,9 +1,9 @@
 // Combine >= 1 reducer funcs & export through redux.combineReducer
 import { combineReducers } from 'redux';
 
-import clock from './clock-reducer';
+import counters from './counters-reducer';
 
-export default combineReducers({ clock });
+export default combineReducers({ counters });
 // TODO: Add a timestamps or some kind of logging state to track timer start/ends,
 // -- pommodoro start/ends along with time they ended, etc.
 // TODO: Add some kind of global state that determines the clocking period.

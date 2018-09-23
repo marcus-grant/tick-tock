@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 
 import ClockContainer from '../containers/CounterContainer';
-import { startGlobalTimer, stopGlobalTimer } from '../actions/clocks-actions';
+import { startCountersTimer, stopCountersTimer } from '../actions/timer-actions';
 
 /** The container for the collection of clocks that are currently in use.
  * This includes clocks that are currently paused (ie inactive).
@@ -18,18 +18,18 @@ import { startGlobalTimer, stopGlobalTimer } from '../actions/clocks-actions';
 class CurrentCountersContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.updateGlobalTimer = this.updateGlobalTimer.bind(this);
+    this.updateCountersTimer = this.updateCountersTimer.bind(this);
   }
-  componentDidMount() { this.updateGlobalTimer(); }
+  componentDidMount() { this.updateCountersTimer(); }
 
-  componentDidUpdate() { this.updateGlobalTimer(); }
+  componentDidUpdate() { this.updateCountersTimer(); }
 
-  componentWillUnmount() { this.updateGlobalTimer(); }
+  componentWillUnmount() { this.updateCountersTimer(); }
 
-  updateGlobalTimer() {
-    if (this.props.isTicking) {
-      this.props.startGlobalTimer(this.props.period * 1000);
-    } else this.props.stopGlobalTimer();
+  updateCountersTimer() {
+    if (this.props.activeIds.length > 0) {
+      this.props.startCountersTimer(this.props.period * 1000);
+    } else this.props.stopCountersTimer();
   }
   render() {
     const { allIds } = this.props;
@@ -46,22 +46,22 @@ class CurrentCountersContainer extends React.Component {
 CurrentCountersContainer.propTypes = {
   /** Array of mapped state objects for current clock widget data */
   allIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  isTicking: PropTypes.bool.isRequired,
+  activeIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   period: PropTypes.number.isRequired,
-  startGlobalTimer: PropTypes.func.isRequired,
-  stopGlobalTimer: PropTypes.func.isRequired,
+  startCountersTimer: PropTypes.func.isRequired,
+  stopCountersTimer: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
-  allIds: state.clock.allIds,
-  isTicking: state.clock.globalTimer.isTicking,
-  period: state.clock.globalTimer.period,
+  allIds: state.counters.allIds,
+  activeIds: state.counters.activeIds,
+  period: state.counters.countersPeriod,
 });
 
 // const mapDispatchToProps = dispatch =>
 //   bindActionCreators({ startGlobalTimer, stopGlobalTimer }, dispatch);
 const mapDispatchToProps = dispatch => ({
-  startGlobalTimer: interval => dispatch(startGlobalTimer(interval)),
-  stopGlobalTimer: () => dispatch(stopGlobalTimer()),
+  startCountersTimer: interval => dispatch(startCountersTimer(interval)),
+  stopCountersTimer: () => dispatch(stopCountersTimer),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrentCountersContainer);
