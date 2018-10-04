@@ -32,6 +32,12 @@ const initState = {
       finished: false,
     },
   },
+  eventsById: {
+    dEADb33F: {
+      eventsToday: 1,
+      timeStamps: [123456789],
+    },
+  },
 };
 
 // const updateSinglePropertyById = (state, id, propUpdater) =>
