@@ -7,5 +7,6 @@ secrets/*
 *debug_out
 
 /dist/*
+/dist/index.html
 
 /public_bak
