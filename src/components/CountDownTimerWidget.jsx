@@ -10,12 +10,14 @@ import TimerControlBar from './controls/timer-controls';
 const CountDownTimerWidget = (props) => {
   const remaining = props.stopCount - props.count;
   const {
+    finished,
     isActive,
     onStartClick,
     onPauseClick,
     onStopClick,
   } = props;
   const ctrlBarProps = {
+    finished,
     isActive,
     onStartClick,
     onPauseClick,
@@ -32,6 +34,7 @@ const CountDownTimerWidget = (props) => {
 CountDownTimerWidget.propTypes = {
   count: PropTypes.number.isRequired,
   stopCount: PropTypes.number.isRequired,
+  finished: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,

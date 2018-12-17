@@ -1,6 +1,18 @@
+@import "../base/_color.scss";
+
 .clks-wkspc__wrpr {
     display: flex;
     justify-content: center;
     padding-top: 4rem;
-    background: red;
+    background: $light-grey;
+}
+
+.clk-wdgt__btn-sets {
+   border-radius: 4px; 
+   outline: none; // TODO: Keep some dynamic markup for accessibilyt.
+   background-color: blue;
+   // color: green;
+   border-width: 1px;
+   border-style: solid;
+   border-color: $dark-grey;
 }
