@@ -32,6 +32,7 @@ const initState = {
       finished: false,
     },
   },
+  eventsById: { dEADb33F: [new Date()] },
 };
 
 // const updateSinglePropertyById = (state, id, propUpdater) =>
@@ -69,14 +70,33 @@ const updateActiveIds = state => ({
   activeIds: state.activeIds.filter(id => state.byId[id].isActive),
 });
 
-const deactivateFinishedCounters = state =>
-  ({
+const deactivateFinishedCounters = (state) => {
+  const finishedCounterIds = state.activeIds.filter(c => shouldStop(state.byId[c]));
+  const newEvents = finishedCounterIds.reduce((acc, cur) => (
+    { ...acc, [cur]: [...state.eventsById[cur], new Date()] }), {});
+  // console.log('New Events: ', newEvents);
+  return ({
     ...state,
     byId: {
       ...state.byId,
       ...updateAllActive(state, counterStopper),
     },
+    eventsById: {
+      ...state.eventsById,
+      ...newEvents,
+    },
   });
+};
+  // ({
+  //   ...state,
+  //   byId: {
+  //     ...state.byId,
+  //     ...updateAllActive(state, counterStopper),
+  //   },
+  //   eventsById: {
+  //     ...state.eventsById,
+  //   },
+  // });
 
 // TODO: Flatten & Pull out reusable operations
 const deactivateCounter = (state, id) => {
@@ -131,29 +151,6 @@ const resetFinishedFlag = (state, id) => {
 const resetCounter = (state, id) =>
   resetFinishedFlag(zeroCounter(state, id), id);
 
-/** Reducer for all state objects related to the many types of counter based widgets --
- * -- that will be used in the future.
- * Each state object uses this data model:
- *   id: number,
- *   seconds: number,
- *   isActive: bool,
- *   clockType: string,
- *   timeMark: number (epoch timestamp, or seconds to reach),
- *   name: The name given to the clock (future update)
- * clockID is somekind of either uint or string of fixed chars, --
- * -- a UUID tied to each widget to manage data relations.
- * seconds: all counters will use a float number as the primary unit --
- * of data to display time, be it as a timer, stopwatch, or a regular counter.
- * isActive: A boolean to be used when updating time. Some widgets --
- * will not always update its listed time, the reducer needs to know this.
- * clockType: A string enumerated in '../constants/clock-types.js'.
- * Used to help ClockContainer HOC render the right kind of widget component.
- * timeMark: A static second mark that gets set and then the clock widget
- * uses the 'seconds' state which dynamically changes to perform its function.
- * For countdown timers this is a number of seconds to reach.
- * For countup timers it always stores the start of the second timer.
- * It's really more of an auxiliary number representing seconds.
- */
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case TICK_COUNTER:
