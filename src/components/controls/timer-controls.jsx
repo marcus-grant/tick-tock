@@ -12,13 +12,14 @@ import { PushButtonStop, ToggleButtonStartPause } from './clock-widget-buttons';
 const TimerControlBar = (props) => {
   // Destructure props
   const {
+    finished,
     isActive,
     onStartClick,
     onPauseClick,
     onStopClick,
   } = props;
   const startPauseProps = {
-    isActive, onStartClick, onPauseClick,
+    enabled: !finished, isActive, onStartClick, onPauseClick,
   };
   return (
     <div className="timer-ctrls__wrpr">
@@ -29,6 +30,7 @@ const TimerControlBar = (props) => {
 };
 
 TimerControlBar.propTypes = {
+  finished: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,

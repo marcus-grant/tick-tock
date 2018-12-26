@@ -1,5 +1,7 @@
+@import "../base/_typography.scss";
+
 .clk-wdgt__wrpr {
-    background: orange;
+    background: $red;
     display: flex;
     flex-direction: column;
     padding: 1rem;

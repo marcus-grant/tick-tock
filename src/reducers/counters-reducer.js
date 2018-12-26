@@ -46,7 +46,7 @@ const counterStopper = cntr => ({
   ...cntr, finished: shouldStop(cntr), isActive: !shouldStop(cntr),
 });
 
-const updateAllActive = (state,   propUpdater) => {
+const updateAllActive = (state, propUpdater) => {
   const result = state.activeIds.reduce((item, id) => (
     {
       [id]: propUpdater(state.byId[id]),
@@ -74,7 +74,7 @@ const deactivateFinishedCounters = (state) => {
   const finishedCounterIds = state.activeIds.filter(c => shouldStop(state.byId[c]));
   const newEvents = finishedCounterIds.reduce((acc, cur) => (
     { ...acc, [cur]: [...state.eventsById[cur], new Date()] }), {});
-  console.log('New Events: ', newEvents);
+  // console.log('New Events: ', newEvents);
   return ({
     ...state,
     byId: {

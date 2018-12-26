@@ -111,17 +111,19 @@ PushButtonStop.propTypes = {
 
 export const ToggleButtonStartPause = (props) => {
   const {
+    enabled,
     isActive,
     onStartClick,
     onPauseClick,
   } = props;
   return (isActive
-    ? <PushButtonPause onPauseClick={onPauseClick} />
-    : <PushButtonStart onStartClick={onStartClick} />);
+    ? <PushButtonPause onPauseClick={enabled ? onPauseClick : null} />
+    : <PushButtonStart onStartClick={enabled ? onStartClick : null} />);
 };
 
 ToggleButtonStartPause.propTypes = {
+  enabled: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
-};
+}; ToggleButtonStartPause.defaultProps = { enabled: true };

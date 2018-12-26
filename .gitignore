@@ -6,4 +6,7 @@ secrets/*
 
 *debug_out
 
-*dist/*
+/dist/*
+/dist/index.html
+
+/public_bak

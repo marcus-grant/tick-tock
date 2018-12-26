@@ -29,7 +29,12 @@ class CounterContainer extends React.Component {
       stopCount,
       isActive,
     } = this.props;
-    const nonFuncTimerProps = { count, stopCount, isActive };
+    const nonFuncTimerProps = {
+      count,
+      stopCount,
+      finished: count >= stopCount,
+      isActive,
+    };
     // TODO: Add conditional for handle clicks to checks props if dispatch needd
     const timerDispatches = {
       onPauseClick: this.props.handlePauseClick,
@@ -43,6 +48,7 @@ class CounterContainer extends React.Component {
     );
     const CDownWidget = <CountDownTimerWidget {...nonFuncTimerProps} {...timerDispatches} />;
     // console.log('CounterContainer of id = ', props.id, ' rendered!');
+    // console.log('props: ', this.props);
     return (
       <div className="clk-wdgt__wrpr">
         <button
@@ -61,7 +67,7 @@ CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   stopCount: PropTypes.number.isRequired,
-  // finished: PropTypes.bool.isRequired,
+  finished: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([CLK_TYPE.POMMODORO, CLK_TYPE.COUNT_DOWN]).isRequired,
   handleStartClick: PropTypes.func.isRequired,
