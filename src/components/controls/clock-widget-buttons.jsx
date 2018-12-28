@@ -60,10 +60,11 @@ export const PushButtonStart = ({ onStartClick, enabled }) => (
     enabled={enabled}
   />);
 PushButtonStart.propTypes = {
-  onStartClick: PropTypes.func.isRequired,
+  onStartClick: PropTypes.func,
   enabled: PropTypes.bool,
 }; PushButtonStart.defaultProps = {
   enabled: false,
+  onStartClick: undefined,
 };
 
 export const PushButtonPause = ({ onPauseClick, enabled }) => (
@@ -74,10 +75,11 @@ export const PushButtonPause = ({ onPauseClick, enabled }) => (
     enabled={enabled}
   />);
 PushButtonPause.propTypes = {
-  onPauseClick: PropTypes.func.isRequired,
+  onPauseClick: PropTypes.func,
   enabled: PropTypes.bool,
 }; PushButtonPause.defaultProps = {
   enabled: false,
+  onPauseClick: undefined,
 };
 
 export const PushButtonStop = ({ onStopClick, enabled }) => (
@@ -88,10 +90,11 @@ export const PushButtonStop = ({ onStopClick, enabled }) => (
     enabled={enabled}
   />);
 PushButtonStop.propTypes = {
-  onStopClick: PropTypes.func.isRequired,
+  onStopClick: PropTypes.func,
   enabled: PropTypes.bool,
 }; PushButtonStop.defaultProps = {
   enabled: false,
+  onStopClick: undefined,
 };
 
 // TODO: Make this capable of ripple animations and wrap as HOC
@@ -117,8 +120,8 @@ export const ToggleButtonStartPause = (props) => {
     onPauseClick,
   } = props;
   return (isActive
-    ? <PushButtonPause onPauseClick={enabled ? onPauseClick : null} />
-    : <PushButtonStart onStartClick={enabled ? onStartClick : null} />);
+    ? <PushButtonPause onPauseClick={enabled ? onPauseClick : undefined} />
+    : <PushButtonStart onStartClick={enabled ? onStartClick : undefined} />);
 };
 
 ToggleButtonStartPause.propTypes = {

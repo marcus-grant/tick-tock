@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import CLK_TYPE from '../constants/clock-types';
 
 import CountDownTimerWidget from '../components/CountDownTimerWidget';
-import { activateClock, deactivateClock, resetClock } from '../actions/counters-action-creators';
+import TimerSettingsPanel from '../components/settings/TimerSettingsPanel';
+import { activateClock, deactivateClock, resetClock, setStopCount } from '../actions/counters-action-creators';
 
 /** The main HOC (Higher Order Component) that each clock widget uses to display
  * current clock data, and map dispatched actions for each clock.
@@ -12,10 +13,21 @@ import { activateClock, deactivateClock, resetClock } from '../actions/counters-
 class CounterContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleSettingsPanel = this.toggleSettingsPanel.bind(this);
     this.state = {
       settingsVisible: false,
     };
+    this.toggleSettingsPanel = this.toggleSettingsPanel.bind(this);
+    this.onSettingsSave = this.onSettingsSave.bind(this);
+    this.onSettingsCancel = this.onSettingsCancel.bind(this);
+  }
+
+  onSettingsSave(settings) {
+    this.setState(s => ({ ...s, settingsVisible: false }));
+    this.props.handleSettingsSave(settings);
+  }
+
+  onSettingsCancel() {
+    this.setState(s => ({ ...s, settingsVisible: false }));
   }
 
   toggleSettingsPanel() {
@@ -42,9 +54,12 @@ class CounterContainer extends React.Component {
       onStopClick: this.props.handleStopClick,
     };
     const SettingsPanel = (
-      <div className="clk-wdgt-sets__wrpr">
-        <h1>Placeholder</h1>
-      </div>
+      <TimerSettingsPanel
+        stopCount={stopCount}
+        isActive={isActive}
+        onSave={this.onSettingsSave}
+        onCancel={this.onSettingsCancel}
+      />
     );
     const CDownWidget = <CountDownTimerWidget {...nonFuncTimerProps} {...timerDispatches} />;
     // console.log('CounterContainer of id = ', props.id, ' rendered!');
@@ -67,12 +82,13 @@ CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   stopCount: PropTypes.number.isRequired,
-  finished: PropTypes.bool.isRequired,
+  // finished: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   type: PropTypes.oneOf([CLK_TYPE.POMMODORO, CLK_TYPE.COUNT_DOWN]).isRequired,
   handleStartClick: PropTypes.func.isRequired,
   handlePauseClick: PropTypes.func.isRequired,
   handleStopClick: PropTypes.func.isRequired,
+  handleSettingsSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) =>
@@ -90,6 +106,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleStopClick: () => {
     const { id } = ownProps;
     dispatch(resetClock(id));
+  },
+
+  handleSettingsSave: (settings) => {
+    const { id } = ownProps;
+    const { stopCount } = settings;
+    dispatch(setStopCount(id, stopCount * 60));
   },
 });
 

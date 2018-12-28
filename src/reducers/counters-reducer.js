@@ -6,6 +6,7 @@ import {
   RESET_COUNTER,
   DEACTIVATE_COUNTER,
   ACTIVATE_COUNTER,
+  SET_COUNTER_STOP,
   // ADD_CLOCK,
   // REMOVE_CLOCK,
 } from '../constants/action-types';
@@ -151,6 +152,23 @@ const resetFinishedFlag = (state, id) => {
 const resetCounter = (state, id) =>
   resetFinishedFlag(zeroCounter(state, id), id);
 
+const setStopCount = (state, id, stopCount) => {
+  const newState = (state.byId[id].finished
+    ? resetCounter(state, id)
+    : state
+  );
+  return {
+    ...newState,
+    byId: {
+      ...newState.byId,
+      [id]: {
+        ...newState.byId[id],
+        stopCount,
+      },
+    },
+  };
+};
+
 const clocksReducer = (state = initState, action) => {
   switch (action.type) {
     case TICK_COUNTER:
@@ -163,6 +181,8 @@ const clocksReducer = (state = initState, action) => {
       return activateCounter(state, action.id);
     case RESET_COUNTER:
       return resetCounter(state, action.id);
+    case SET_COUNTER_STOP:
+      return setStopCount(state, action.id, action.stopCount);
     // case SET_MARK:
     //   return { ...state, timeMark: action.timeMark };
     // case SET_SECONDS:
