@@ -15,6 +15,7 @@ const CountDownTimerWidget = (props) => {
     onStartClick,
     onPauseClick,
     onStopClick,
+    onResetClick,
   } = props;
   const ctrlBarProps = {
     finished,
@@ -22,6 +23,7 @@ const CountDownTimerWidget = (props) => {
     onStartClick,
     onPauseClick,
     onStopClick,
+    onResetClick,
   };
   return (
     <div className="cnt-dn-wdgt__wrpr">
@@ -39,6 +41,7 @@ CountDownTimerWidget.propTypes = {
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
   onStopClick: PropTypes.func.isRequired,
+  onResetClick: PropTypes.func.isRequired,
 };
 
 export default CountDownTimerWidget;

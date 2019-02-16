@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedo } from '@fortawesome/free-solid-svg-icons';
 
 // FA Icon definitions
 const faStart = 'play';
 const faPause = 'pause';
 const faStop = 'stop';
+const faReset = faRedo;
 
 // FA 'iconType' PropType definition
-const propTypeFAIcon = PropTypes.oneOf([faStart, faPause, faStop]);
+const propTypeFAIcon = PropTypes.oneOf([faStart, faPause, faStop, faReset]);
 
 // Class Definitions
 const classBtn = 'clk-wdgt__btn';
@@ -17,6 +19,7 @@ const classBtn = 'clk-wdgt__btn';
 const classPlay = `${classBtn} btn-play`;
 const classPause = `${classBtn} btn-pause`;
 const classStop = `${classBtn} btn-stop`;
+const classReset = `${classBtn} btn-reset`;
 const classDisabled = 'clk-wdgt__btn--disabled';
 // const classSkip = `${classBtn} btn-skip`;
 
@@ -39,8 +42,6 @@ export const FAButton = ({
     <FontAwesomeIcon icon={iconType} />
   </button>
 );
-
-// FAButton PropTypes definition that gets reused in components that use it.
 const propTypeFAButton = {
   iconType: propTypeFAIcon.isRequired,
   className: PropTypes.string.isRequired,
@@ -98,31 +99,46 @@ PushButtonStop.propTypes = {
 };
 
 // TODO: Make this capable of ripple animations and wrap as HOC
-// /** This button type only has a single  */
-// const WidgetControlPushButton = ({
-//   children
-//   buttonFunc,
-//   buttonClass,
-//   iconType,
-// }) => composeFAButton(buttonFunc, buttonClass, iconType);
-
-// WidgetControlPushButton.propTypes = {
-// };
-
-// const combineTwoButtonsIntoToggle = (isActive, ActiveBtn, InactiveBtn) => props =>
-//   (isActive ? <ActiveBtn {...props} /> : <InactiveBtn {...props} />);
-
-export const ToggleButtonStartPause = (props) => {
-  const {
-    enabled,
-    isActive,
-    onStartClick,
-    onPauseClick,
-  } = props;
-  return (isActive
-    ? <PushButtonPause onPauseClick={enabled ? onPauseClick : undefined} />
-    : <PushButtonStart onStartClick={enabled ? onStartClick : undefined} />);
+export const PushButtonReset = ({ onResetClick, enabled }) => (
+  <FAButton
+    iconType={faReset}
+    className={classReset}
+    onClick={onResetClick}
+    enabled={enabled}
+  />);
+PushButtonReset.propTypes = {
+  onResetClick: PropTypes.func,
+  enabled: PropTypes.bool,
+}; PushButtonReset.defaultProps = {
+  enabled: false,
+  onResetClick: undefined,
 };
+
+export const ToggleButtonStopReset = ({
+  enabled,
+  isActive,
+  onStopClick,
+  onResetClick,
+}) => (isActive
+  ? <PushButtonStop onStopClick={enabled ? onStopClick : undefined} />
+  : <PushButtonReset onResetClick={enabled ? onResetClick : undefined} />
+);
+ToggleButtonStopReset.propTypes = {
+  enabled: PropTypes.bool,
+  isActive: PropTypes.bool.isRequired,
+  onStopClick: PropTypes.func.isRequired,
+  onResetClick: PropTypes.func.isRequired,
+}; ToggleButtonStopReset.defaultProps = { enabled: true };
+
+export const ToggleButtonStartPause = ({
+  enabled,
+  isActive,
+  onStartClick,
+  onPauseClick,
+}) => (isActive
+  ? <PushButtonPause onPauseClick={enabled ? onPauseClick : undefined} />
+  : <PushButtonStart onStartClick={enabled ? onStartClick : undefined} />
+);
 
 ToggleButtonStartPause.propTypes = {
   enabled: PropTypes.bool,

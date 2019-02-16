@@ -11,7 +11,7 @@ import CurrentCountersContainer from './CurrentCountersContainer';
 
 // TODO: add something like the link below to change code behavior based
 // on if development mode is running on webpack.
-// link: http://bit.ly/2IiGcYi
+// link: https://stackoverflow.com/questions/28572380/conditional-build-based-on-environment-using-webpack
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
   reducers,

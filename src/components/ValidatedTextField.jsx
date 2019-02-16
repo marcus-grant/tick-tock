@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const isNumber = text => !Number.isNaN(text);
+
 const isValidInteger = (text) => {
   const parsedNum = Number.parseInt(text, 10);
   if (Number.isNaN(parsedNum)) return false;
@@ -12,8 +14,6 @@ const isGreaterThanZero = (text) => {
   if (Number.isNaN(parsedNum)) return false;
   return parsedNum > 0;
 };
-
-const isNumber = text => !Number.isNaN(text);
 
 export const VALIDATION_RULES = {
   IS_NUM: isNumber,

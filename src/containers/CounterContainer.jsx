@@ -57,6 +57,7 @@ class CounterContainer extends React.Component {
       onPauseClick: this.props.handlePauseClick,
       onStartClick: this.props.handleStartClick,
       onStopClick: this.props.handleStopClick,
+      onResetClick: this.props.handleStopClick,
     };
     const SettingsPanel = (
       <TimerSettingsPanel
@@ -90,6 +91,7 @@ CounterContainer.propTypes = {
   handleStartClick: PropTypes.func.isRequired,
   handlePauseClick: PropTypes.func.isRequired,
   handleStopClick: PropTypes.func.isRequired,
+  handleResetClick: PropTypes.func.isRequired,
   handleSettingsSave: PropTypes.func.isRequired,
 };
 
@@ -107,6 +109,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   handleStopClick: () => {
     const { id } = ownProps;
+    dispatch(deactivateClock(id));
+    dispatch(resetClock(id));
+  },
+  handleResetClick: () => {
+    const { id } = ownProps;
+    dispatch(deactivateClock(id));
     dispatch(resetClock(id));
   },
 
