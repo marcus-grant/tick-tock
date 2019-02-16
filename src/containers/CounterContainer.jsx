@@ -5,7 +5,12 @@ import CLK_TYPE from '../constants/clock-types';
 
 import CountDownTimerWidget from '../components/CountDownTimerWidget';
 import TimerSettingsPanel from '../components/settings/TimerSettingsPanel';
-import { activateClock, deactivateClock, resetClock, setStopCount } from '../actions/counters-action-creators';
+import {
+  activateClock,
+  deactivateClock,
+  resetClock,
+  setStopCount,
+} from '../actions/counters-action-creators';
 
 /** The main HOC (Higher Order Component) that each clock widget uses to display
  * current clock data, and map dispatched actions for each clock.
@@ -62,8 +67,6 @@ class CounterContainer extends React.Component {
       />
     );
     const CDownWidget = <CountDownTimerWidget {...nonFuncTimerProps} {...timerDispatches} />;
-    // console.log('CounterContainer of id = ', props.id, ' rendered!');
-    // console.log('props: ', this.props);
     return (
       <div className="clk-wdgt__wrpr">
         <button
@@ -76,7 +79,6 @@ class CounterContainer extends React.Component {
     );
   }
 }
-// class CounterContainer extends React.Component {
 
 CounterContainer.propTypes = {
   id: PropTypes.string.isRequired,
@@ -111,7 +113,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleSettingsSave: (settings) => {
     const { id } = ownProps;
     const { stopCount } = settings;
-    dispatch(setStopCount(id, stopCount * 60));
+    dispatch(setStopCount(id, stopCount));
   },
 });
 

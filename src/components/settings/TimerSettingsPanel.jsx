@@ -7,19 +7,37 @@ class TimerSettingsPanel extends React.Component {
   constructor() {
     super();
     this.state = {
-      stopCount: 0,
+      stopHrs: 0,
+      stopMins: 0,
+      stopSecs: 0,
     };
     this.handleSettingsSave = this.handleSettingsSave.bind(this);
     this.handleSettingsChange = this.handleSettingsChange.bind(this);
   }
 
+  /**
+   * Updates state based on any changes to any settings field.
+   *
+   * @param {object} changedField settings form item that changed
+   */
   handleSettingsChange(changedField) {
+    console.log('handleSettingsChange', changedField);
     const value = Number.parseInt(changedField.value, 10);
     const { key } = changedField;
-    this.setState({ [key]: value });
+    this.setState({ [key]: value }, () => console.log('TimeSettingsPanel.state: ', this.state.stopMins));
   }
 
-  handleSettingsSave() { this.props.onSave(this.state); }
+  /**
+   * Take the state properties involved in managing settings &
+   * return them to parent through onSave as an object of settings.
+   */
+  handleSettingsSave() {
+    this.props.onSave({
+      stopCount: (this.state.stopSecs
+        + (this.state.stopHrs * 3600)
+        + (this.state.stopMins * 60)),
+    });
+  }
 
   render() {
     const {
@@ -38,8 +56,8 @@ class TimerSettingsPanel extends React.Component {
         <div className="clk-wdgt-sets__row">
           <span>Timer Minutes:</span>
           <ValidatedTextField
-            fieldKey="stopCount"
-            placeholder={`${this.props.stopCount}`}
+            fieldKey="stopMins"
+            placeholder={`${Math.floor((this.props.stopCount) / 60)}`}
             onValidatedTextChange={this.handleSettingsChange}
             validationFuncs={minutesValidationRules}
           />
