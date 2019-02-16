@@ -13,12 +13,12 @@ const isGreaterThanZero = (text) => {
   return parsedNum > 0;
 };
 
-const hasOnlyNumbers = text => /^\d$/.test(text);
+const isNumber = text => !Number.isNaN(text);
 
 export const VALIDATION_RULES = {
+  IS_NUM: isNumber,
   IS_INT: isValidInteger,
   IS_GT_ZERO: isGreaterThanZero,
-  IS_ONLY_NUM: hasOnlyNumbers,
 };
 
 class ValidatedTextField extends React.Component {

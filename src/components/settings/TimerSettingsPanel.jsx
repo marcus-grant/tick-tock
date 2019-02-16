@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ValidatedTextField, { VALIDATION_RULES } from '../ValidatedTextField';
+import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 
 class TimerSettingsPanel extends React.Component {
   constructor() {
@@ -21,10 +22,9 @@ class TimerSettingsPanel extends React.Component {
    * @param {object} changedField settings form item that changed
    */
   handleSettingsChange(changedField) {
-    console.log('handleSettingsChange', changedField);
     const value = Number.parseInt(changedField.value, 10);
     const { key } = changedField;
-    this.setState({ [key]: value }, () => console.log('TimeSettingsPanel.state: ', this.state.stopMins));
+    this.setState({ [key]: value });
   }
 
   /**
@@ -43,11 +43,14 @@ class TimerSettingsPanel extends React.Component {
     const {
       isActive,
     } = this.props;
-    const minutesValidationRules = [
+    const timeValidationRules = [
+      VALIDATION_RULES.IS_NUM,
       VALIDATION_RULES.IS_INT,
       VALIDATION_RULES.IS_GT_ZERO,
-      VALIDATION_RULES.IS_ONLY_NUM,
     ];
+    const timeUnits = decimalDigitsFromSeconds(this.props.stopCount);
+    const currentSecs = (timeUnits.tenSeconds * 10) + timeUnits.seconds;
+    const currentMins = (timeUnits.tenMinutes * 10) + timeUnits.minutes;
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
     return (
@@ -57,9 +60,18 @@ class TimerSettingsPanel extends React.Component {
           <span>Timer Minutes:</span>
           <ValidatedTextField
             fieldKey="stopMins"
-            placeholder={`${Math.floor((this.props.stopCount) / 60)}`}
+            placeholder={`${currentMins}`}
             onValidatedTextChange={this.handleSettingsChange}
-            validationFuncs={minutesValidationRules}
+            validationFuncs={timeValidationRules}
+          />
+        </div>
+        <div className="clk-wdgt-sets__row">
+          <span>Timer Seconds:</span>
+          <ValidatedTextField
+            fieldKey="stopSecs"
+            placeholder={`${currentSecs}`}
+            onValidatedTextChange={this.handleSettingsChange}
+            validationFuncs={timeValidationRules}
           />
         </div>
         <div className="clk-wdgt-sets__row">
