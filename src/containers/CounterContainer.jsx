@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import CLK_TYPE from '../constants/clock-types';
 
+import { ToggleButtonSettingsBack } from '../components/controls/clock-widget-buttons';
+import CLK_TYPE from '../constants/clock-types';
 import CountDownTimerWidget from '../components/CountDownTimerWidget';
 import TimerSettingsPanel from '../components/settings/TimerSettingsPanel';
 import {
@@ -70,11 +71,12 @@ class CounterContainer extends React.Component {
     const CDownWidget = <CountDownTimerWidget {...nonFuncTimerProps} {...timerDispatches} />;
     return (
       <div className="clk-wdgt__wrpr">
-        <button
-          className="clk-wdgt__btn-sets"
-          onClick={this.toggleSettingsPanel}
-        >{'*'}
-        </button>
+        <ToggleButtonSettingsBack
+          enabled
+          isActive={this.state.settingsVisible}
+          onSettingsClick={this.toggleSettingsPanel}
+          onBackClick={this.toggleSettingsPanel}
+        />
         { settingsVisible ? SettingsPanel : CDownWidget }
       </div>
     );

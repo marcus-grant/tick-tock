@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
+import { faRedo, faArrowCircleLeft, faCog } from '@fortawesome/free-solid-svg-icons';
 
 // FA Icon definitions
 const faStart = 'play';
 const faPause = 'pause';
 const faStop = 'stop';
 const faReset = faRedo;
+const faSettings = faCog;
+const faBack = faArrowCircleLeft;
 
 // FA 'iconType' PropType definition
-const propTypeFAIcon = PropTypes.oneOf([faStart, faPause, faStop, faReset]);
+const propTypeFAIcon = PropTypes.oneOf([faStart, faPause, faStop, faReset, faSettings, faBack]);
 
 // Class Definitions
 const classBtn = 'clk-wdgt__btn';
@@ -20,6 +22,8 @@ const classPlay = `${classBtn} btn-play`;
 const classPause = `${classBtn} btn-pause`;
 const classStop = `${classBtn} btn-stop`;
 const classReset = `${classBtn} btn-reset`;
+const classSettings = `${classBtn} btn-settings`;
+const classBack = `${classBtn} btn-back`;
 const classDisabled = 'clk-wdgt__btn--disabled';
 // const classSkip = `${classBtn} btn-skip`;
 
@@ -114,6 +118,36 @@ PushButtonReset.propTypes = {
   onResetClick: undefined,
 };
 
+export const PushButtonSettings = ({ onSettingsClick, enabled }) => (
+  <FAButton
+    iconType={faSettings}
+    className={classSettings}
+    onClick={onSettingsClick}
+    enabled={enabled}
+  />);
+PushButtonSettings.propTypes = {
+  onSettingsClick: PropTypes.func,
+  enabled: PropTypes.bool,
+}; PushButtonSettings.defaultProps = {
+  enabled: false,
+  onSettingsClick: undefined,
+};
+
+export const PushButtonBack = ({ onBackClick, enabled }) => (
+  <FAButton
+    iconType={faBack}
+    className={classBack}
+    onClick={onBackClick}
+    enabled={enabled}
+  />);
+PushButtonBack.propTypes = {
+  onBackClick: PropTypes.func,
+  enabled: PropTypes.bool,
+}; PushButtonBack.defaultProps = {
+  enabled: false,
+  onBackClick: undefined,
+};
+
 export const ToggleButtonStopReset = ({
   enabled,
   isActive,
@@ -146,3 +180,20 @@ ToggleButtonStartPause.propTypes = {
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
 }; ToggleButtonStartPause.defaultProps = { enabled: true };
+
+export const ToggleButtonSettingsBack = ({
+  enabled,
+  isActive,
+  onSettingsClick,
+  onBackClick,
+}) => (isActive
+  ? <PushButtonBack onBackClick={enabled ? onBackClick : undefined} />
+  : <PushButtonSettings onSettingsClick={enabled ? onSettingsClick : undefined} />
+);
+
+ToggleButtonSettingsBack.propTypes = {
+  enabled: PropTypes.bool,
+  isActive: PropTypes.bool.isRequired,
+  onSettingsClick: PropTypes.func.isRequired,
+  onBackClick: PropTypes.func.isRequired,
+}; ToggleButtonSettingsBack.defaultProps = { enabled: true };
