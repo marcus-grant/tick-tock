@@ -2,8 +2,9 @@
 
 .clks-wkspc__wrpr {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     padding-top: 4rem;
     background: $light-grey;
     height: 100%;
+    align-items: flex-start;
 }
