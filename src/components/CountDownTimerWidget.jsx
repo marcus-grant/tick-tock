@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import BasicTimeDisplay from './time-displays/BasicClockDisplay';
 // import FlipCardDisplay from './time-displays/flip-card-display';
-import TimerControlBar from './controls/timer-controls';
+import TimerControlBar from './controls/TimerControls';
 
 // import shipBell from '../assets/sound/ship-bell.mp3';
 
