@@ -8,5 +8,8 @@ secrets/*
 
 /dist/*
 /dist/index.html
+dist
+dist/*
+dist/index.html
 
 /public_bak
