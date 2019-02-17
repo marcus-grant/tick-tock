@@ -20,21 +20,10 @@ const store = createStore(
 );
 /* eslint-enable */
 
-<<<<<<< HEAD
-const App = () => {
-  console.log('store state: ', store.getState());
-  return (
-    <Provider store={store}>
-      <TimerContainer text="Test" />
-    </Provider>
-  );
-};
-=======
 const App = () => (
   <Provider store={store}>
     <CurrentCountersContainer />
   </Provider>
 );
->>>>>>> master
 
 export default App;
