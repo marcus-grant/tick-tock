@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import FlipCardDisplay from './time-displays/flip-card-display';
+import BasicTimeDisplay from './time-displays/BasicClockDisplay';
+// import FlipCardDisplay from './time-displays/flip-card-display';
 import TimerControlBar from './controls/timer-controls';
 
 // import shipBell from '../assets/sound/ship-bell.mp3';
 
 // TODO: This should be a HOC for a common ClockWidget Component
+// TODO: Add settings controls for switching which time display comp. to use
 const CountDownTimerWidget = (props) => {
   const remaining = props.stopCount - props.count;
   const {
@@ -27,7 +29,8 @@ const CountDownTimerWidget = (props) => {
   };
   return (
     <div className="cnt-dn-wdgt__wrpr">
-      <FlipCardDisplay seconds={remaining} />
+      { /* <FlipCardDisplay seconds={remaining} /> */}
+      <BasicTimeDisplay seconds={remaining} />
       <TimerControlBar {...ctrlBarProps} />
     </div>
   );

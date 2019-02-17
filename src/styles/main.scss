@@ -2,7 +2,9 @@
 @import './base/_typography.scss';
 @import './components/_workspace.scss';
 @import './components/_clock-widget.scss';
-@import './components/_flip-clock.scss';
+// @import './components/_flip-clock.scss';
+@import './components/basic-clock.scss';
+@import './components/clock-separator.scss';
 
 // Reset some defaults
 html, body, div, span, applet, object, iframe,
