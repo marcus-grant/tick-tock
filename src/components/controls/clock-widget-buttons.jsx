@@ -40,7 +40,7 @@ export const FAButton = ({
   enabled,
 }) => (
   <button
-    className={`${className}${enabled ? '' : classDisabled}`}
+    className={`${className} ${enabled ? '' : classDisabled}`}
     onClick={onClick}
   >
     <FontAwesomeIcon icon={iconType} />

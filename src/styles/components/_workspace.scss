@@ -5,14 +5,5 @@
     justify-content: center;
     padding-top: 4rem;
     background: $light-grey;
-}
-
-.clk-wdgt__btn-sets {
-   border-radius: 4px; 
-   outline: none; // TODO: Keep some dynamic markup for accessibilyt.
-   background-color: blue;
-   // color: green;
-   border-width: 1px;
-   border-style: solid;
-   border-color: $dark-grey;
+    height: 100%;
 }

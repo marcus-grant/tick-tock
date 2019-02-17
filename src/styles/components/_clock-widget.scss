@@ -1,15 +1,32 @@
 @import "../base/_typography.scss";
+@import "../base/color.scss";
 
 .clk-wdgt__wrpr {
+    width: 18rem;
     background: $red;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.8rem;
+    padding-top: 0.6rem;
 }
 
-.clk-wdgt__btn-sets {
-    width: 24px;
-    height: 24px;
-    background: white;
+.clk-wdgt__btn {
+    text-align: center;
+}
+
+.btn-settings, .btn-back {
+    width: 2rem;
+    height: 2rem;
+    // padding-right: 1.2rem;
+    // background: white;
+    // color: inherit;
+    color: $light-grey;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    background: none;
     align-self: flex-end;
+    // outline: none; // TODO: Keep some dynamic markup for i18n standards.
+
 }
