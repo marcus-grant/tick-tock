@@ -1,0 +1,23 @@
+.time-disp__wrpr {
+    background: white;
+    display: flex;
+}
+
+.time-disp__flip-card-group {
+    display: flex;
+    flex-direction: row;
+    margin: 0 4px;
+}
+
+.time-disp__flip-card {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    font-size: 4.2rem;
+    margin: 2px;
+    min-width: 4rem;
+    text-align: center;
+
+    span {
+        align-self: center;
+    }
+}

@@ -1,7 +1,7 @@
 const path = require('path');
 // better for future compatibility from guide
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -45,7 +45,8 @@ module.exports = {
     ],
   },
   resolve: { extensions: ['.js', '.jsx'] },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
+  // devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public/dist'),
     // watchContentBase: true,

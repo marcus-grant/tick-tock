@@ -3,10 +3,14 @@
 // Imported in Actions & Reducers
 // Prevents errors due to typos
 
-export const INCREMENT_TIMER = 'INCREMENT_TIMER';
-export const DECREMENT_TIMER = 'DECREMENT_TIMER';
-export const RESET_TIMER = 'RESET_TIMER';
+// Counters
+export const TICK_COUNTER = 'CNT_TCK';
+export const RESET_COUNTER = 'CNT_RST';
+export const SET_COUNTER_STOP = 'CNT_SET_STOP';
+export const DEACTIVATE_COUNTER = 'CNT_DACT';
+export const ACTIVATE_COUNTER = 'CNT_ACT';
+export const ADD_COUNTER = 'CNT_ADD';
+export const REMOVE_COUNTER = 'CNT_DEL';
 
-export const INCREMENT_NUM = 'INCREMENT_COUNTER';
-export const DECREMENT_NUM = 'DECREMENT_COUNTER';
-export const RESET = 'RESET_COUNTER';
+// Events
+// export const
