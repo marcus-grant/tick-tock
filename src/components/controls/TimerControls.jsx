@@ -22,7 +22,7 @@ const TimerControlBar = (props) => {
     enabled: !finished, isActive, onStartClick, onPauseClick,
   };
   const stopResetProps = {
-    enabled: !finished, isActive, onStopClick, onResetClick,
+    enabled: true, isActive, onStopClick, onResetClick,
   };
   return (
     <div className="timer-ctrls__wrpr">

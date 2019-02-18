@@ -10,7 +10,37 @@
     padding-top: 0.6rem;
     box-shadow: 3px 3px 0 0 #a2c2c2;
     flex-shrink: 1;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    height: 12rem;
+    h1 {
+        font-size: 1.2rem;
+    }
 }
+
+.clk-wdgt-sets__panel {
+    height: 100%;
+}
+
+.clk-wdgt-sets__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.2rem 0.32rem;
+}
+
+.textfield {
+    flex-grow: 0;
+    width: 2rem;
+    text-align: center;
+    border: solid 2px white;
+    color: $red;
+    font-weight: bold;
+}
+
+// .clk-wdgt-sets__row--bottom {
+// }
 
 .timer-ctrls__wrpr {
     margin-top: 0.6rem;
@@ -33,6 +63,7 @@
     font: inherit;
     cursor: pointer;
     align-self: flex-end;
+    font-size: 1.2rem;
     // outline: none; // TODO: Keep some dynamic markup for i18n standards.
 }
 
