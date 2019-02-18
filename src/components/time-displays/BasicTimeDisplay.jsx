@@ -8,7 +8,7 @@ import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 // TODO: Maybe give classnames from a "type prop"
 // !!! Don't do the above, it should be the parent that does this
 // TODO: Handle different time divisions and groupings of them for display
-const FlipCardDisplay = (props) => {
+const BasicTimeDisplay = (props) => {
   const {
     tenMinutes,
     minutes,
@@ -22,9 +22,14 @@ const FlipCardDisplay = (props) => {
         <span className="time-disp__time-digit">{tenMinutes}</span>
         <span className="time-disp__time-digit">{minutes}</span>
       </div>
-      <div className="time-disp__basic-group">
-        <span className="time-disp__basic-separator">:</span>
-      </div>
+      { props.separator
+        ? props.separator
+        : (
+          <div className="time-disp__basic-group">
+            <span className="time-disp__basic-separator">:</span>
+          </div>
+         )
+      }
       <div className="time-disp__basic-group">
         <span className="time-disp__time-digit">{tenSeconds}</span>
         <span className="time-disp__time-digit">{seconds}</span>
@@ -33,14 +38,15 @@ const FlipCardDisplay = (props) => {
   );
 };
 
-FlipCardDisplay.propTypes = {
-  // digits: PropTypes.number,
-  // digitsInCard: PropTypes.number,
+BasicTimeDisplay.propTypes = {
   seconds: PropTypes.number,
-}; FlipCardDisplay.defaultProps = {
-  // digits: 4,
-  // digitsInCard: 1,
+  separator: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+  ]),
+}; BasicTimeDisplay.defaultProps = {
   seconds: 0,
+  separator: undefined,
 };
 
-export default FlipCardDisplay;
+export default BasicTimeDisplay;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import BasicTimeDisplay from './time-displays/BasicClockDisplay';
+import BasicTimeDisplay from './time-displays/BasicTimeDisplay';
 // import FlipCardDisplay from './time-displays/flip-card-display';
 import TimerControlBar from './controls/TimerControls';
 

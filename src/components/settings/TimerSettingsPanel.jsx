@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ValidatedTextField, { VALIDATION_RULES } from '../ValidatedTextField';
+import { VALIDATION_RULES } from '../ValidatedTextField';
+import SettingsRow from './SettingsRow';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 
 class TimerSettingsPanel extends React.Component {
@@ -54,27 +55,27 @@ class TimerSettingsPanel extends React.Component {
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
     return (
-      <div className="clk-wdgt-sets_wrpr">
-        <h1>Settings</h1>
-        <div className="clk-wdgt-sets__row">
-          <span>Timer Minutes:</span>
-          <ValidatedTextField
-            fieldKey="stopMins"
+      <div className="clk-wdgt-sets__panel">
+        <div className="clk-wdgt-sets_wrpr">
+          {/* <h1>Settings</h1> */}
+          <SettingsRow
+            settingName="Timer (minutes):"
+            settingKey="stopMins"
             placeholder={`${currentMins}`}
             onValidatedTextChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
+            plusMinus
           />
-        </div>
-        <div className="clk-wdgt-sets__row">
-          <span>Timer Seconds:</span>
-          <ValidatedTextField
-            fieldKey="stopSecs"
+          <SettingsRow
+            settingName="Timer (seconds):"
+            settingKey="stopSecs"
             placeholder={`${currentSecs}`}
             onValidatedTextChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
+            plusMinus
           />
         </div>
-        <div className="clk-wdgt-sets__row">
+        <div className="clk-wdgt-sets__row--bottom">
           <button
             className={buttonClass}
             onClick={isActive ? () => {} : this.handleSettingsSave}
