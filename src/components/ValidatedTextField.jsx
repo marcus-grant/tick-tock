@@ -67,7 +67,8 @@ class ValidatedTextField extends React.Component {
     return (
       <input
         className={computedClass}
-        type="text"
+        type="number"
+        min="0"
         value={this.state.isTouched ? text : this.props.placeholder}
         onChange={this.handleChange}
       />
