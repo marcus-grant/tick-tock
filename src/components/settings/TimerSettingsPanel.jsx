@@ -83,9 +83,6 @@ class TimerSettingsPanel extends React.Component {
       VALIDATION_RULES.IS_INT,
       VALIDATION_RULES.IS_GT_ZERO,
     ];
-    // const timeUnits = decimalDigitsFromSeconds(this.props.stopCount);
-    // const currentSecs = (timeUnits.tenSeconds * 10) + timeUnits.seconds;
-    // const currentMins = (timeUnits.tenMinutes * 10) + timeUnits.minutes;
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
     return (
