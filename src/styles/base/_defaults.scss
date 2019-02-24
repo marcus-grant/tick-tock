@@ -1,3 +1,5 @@
+@import './_color.scss';
+@import './_typography.scss';
 // Reset some defaults
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -28,4 +30,11 @@ body {
 }
 #react-root {
 	height: 100%;
+}
+
+button {
+    text-align: center;
+    color: $light-grey;
+    border: none;
+	background: none;
 }

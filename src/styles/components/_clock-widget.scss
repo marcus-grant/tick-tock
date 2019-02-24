@@ -21,6 +21,10 @@
 
 .clk-wdgt-sets__panel {
     height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    margin-top: 0.6rem;
 }
 
 .clk-wdgt-sets__row {
@@ -37,10 +41,20 @@
     border: solid 2px white;
     color: $red;
     font-weight: bold;
+    background: white;
 }
 
-// .clk-wdgt-sets__row--bottom {
-// }
+.clk-wdgt-sets__row--bottom {
+    display: flex;
+    justify-content: center;
+}
+
+.clk-wdgt-sets__save,
+.clk-wdgt-sets__save--disabled,
+.clk-wdgt-sets__cancel,
+.clk-wdgt-sets__cancel--disabled {
+    flex-grow: 1;
+}
 
 .timer-ctrls__wrpr {
     margin-top: 0.6rem;
