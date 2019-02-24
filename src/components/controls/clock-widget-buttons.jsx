@@ -54,11 +54,11 @@ export const FAButton = ({
   iconType,
   className,
   onClick,
-  enabled,
+  disabled,
 }) => (
   <button
-    className={`${className} ${enabled ? '' : classDisabled}`}
-    onClick={enabled ? onClick : undefined}
+    className={`${className} ${disabled ? classDisabled : ''}`}
+    onClick={disabled ? undefined : onClick}
   >
     <FontAwesomeIcon icon={iconType} />
   </button>
@@ -67,163 +67,163 @@ const propTypeFAButton = {
   iconType: propTypeFAIcon.isRequired,
   className: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
 }; FAButton.propTypes = propTypeFAButton;
 const defaultPropsFAButton = {
   onClick: undefined,
-  enabled: false,
+  disabled: false,
 }; FAButton.defaultProps = defaultPropsFAButton;
 
-export const PushButtonStart = ({ onClick, enabled }) => (
+export const PushButtonStart = ({ onClick, disabled }) => (
   <FAButton
     iconType={faStart}
     className={classPlay}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonStart.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonStart.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonStart.defaultProps = { disabled: false };
 
-export const PushButtonPause = ({ onClick, enabled }) => (
+export const PushButtonPause = ({ onClick, disabled }) => (
   <FAButton
     iconType={faPause}
     className={classPause}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonPause.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonPause.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonPause.defaultProps = { disabled: false };
 
-export const PushButtonStop = ({ onClick, enabled }) => (
+export const PushButtonStop = ({ onClick, disabled }) => (
   <FAButton
     iconType={faStop}
     className={classStop}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonStop.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonStop.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonStop.defaultProps = { disabled: false };
 
 // TODO: Make this capable of ripple animations and wrap as HOC
 // TODO: make enabled props semantically and logically 'disabled'
 // -- this way the default is enabled and a 'disabled' negates
-export const PushButtonReset = ({ onClick, enabled }) => (
+export const PushButtonReset = ({ onClick, disabled }) => (
   <FAButton
     iconType={faReset}
     className={classReset}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonReset.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonReset.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonReset.defaultProps = { disabled: false };
 
-export const PushButtonSettings = ({ onClick, enabled }) => (
+export const PushButtonSettings = ({ onClick, disabled }) => (
   <FAButton
     iconType={faSettings}
     className={classSettings}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonSettings.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonSettings.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonSettings.defaultProps = { disabled: false };
 
-export const PushButtonBack = ({ onClick, enabled }) => (
+export const PushButtonBack = ({ onClick, disabled }) => (
   <FAButton
     iconType={faBack}
     className={classBack}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonBack.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
 }; PushButtonBack.defaultProps = {
-  enabled: false,
+  disabled: false,
 };
 
-export const PushButtonPlus = ({ onClick, enabled }) => (
+export const PushButtonPlus = ({ onClick, disabled }) => (
   <FAButton
     iconType={faPlus}
     className={classPlus}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />
 );
 PushButtonPlus.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
 }; PushButtonPlus.defaultProps = {
-  enabled: false,
+  disabled: false,
 };
 
-export const PushButtonMinus = ({ onClick, enabled }) => (
+export const PushButtonMinus = ({ onClick, disabled }) => (
   <FAButton
     iconType={faMinus}
     className={classMinus}
     onClick={onClick}
-    enabled={enabled}
+    disabled={disabled}
   />);
 PushButtonMinus.propTypes = {
   onClick: PropTypes.func.isRequired,
-  enabled: PropTypes.bool,
-}; PushButtonMinus.defaultProps = { enabled: false };
+  disabled: PropTypes.bool,
+}; PushButtonMinus.defaultProps = { disabled: false };
 
 // TODO: Give toggles more generic names and make HOC
 export const ToggleButtonStopReset = ({
-  enabled,
+  disabled,
   isActive,
   onStopClick,
   onResetClick,
 }) => (isActive
-  ? <PushButtonStop onClick={onStopClick} enabled={enabled} />
-  : <PushButtonReset onClick={onResetClick} enabled={enabled} />);
+  ? <PushButtonStop onClick={onStopClick} disabled={disabled} />
+  : <PushButtonReset onClick={onResetClick} disabled={disabled} />);
 ToggleButtonStopReset.propTypes = {
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
   onStopClick: PropTypes.func.isRequired,
   onResetClick: PropTypes.func.isRequired,
-}; ToggleButtonStopReset.defaultProps = { enabled: true };
+}; ToggleButtonStopReset.defaultProps = { disabled: false };
 
 export const ToggleButtonStartPause = ({
-  enabled,
+  disabled,
   isActive,
   onStartClick,
   onPauseClick,
 }) => (isActive
-  ? <PushButtonPause onClick={onPauseClick} enabled={enabled} />
-  : <PushButtonStart onClick={onStartClick} enabled={enabled} />
+  ? <PushButtonPause onClick={onPauseClick} disabled={disabled} />
+  : <PushButtonStart onClick={onStartClick} disabled={disabled} />
 );
 
 ToggleButtonStartPause.propTypes = {
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
   onStartClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
-}; ToggleButtonStartPause.defaultProps = { enabled: true };
+}; ToggleButtonStartPause.defaultProps = { disabled: false };
 
 export const ToggleButtonSettingsBack = ({
-  enabled,
+  disabled,
   isActive,
   onSettingsClick,
   onBackClick,
 }) => (isActive
-  ? <PushButtonBack onClick={onBackClick} enabled={enabled} />
-  : <PushButtonSettings onClick={onSettingsClick} enabled={enabled} />
+  ? <PushButtonBack onClick={onBackClick} disabled={disabled} />
+  : <PushButtonSettings onClick={onSettingsClick} disabled={disabled} />
 );
 
 ToggleButtonSettingsBack.propTypes = {
-  enabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   isActive: PropTypes.bool.isRequired,
   onSettingsClick: PropTypes.func.isRequired,
   onBackClick: PropTypes.func.isRequired,
-}; ToggleButtonSettingsBack.defaultProps = { enabled: true };
+}; ToggleButtonSettingsBack.defaultProps = { disabled: false };
