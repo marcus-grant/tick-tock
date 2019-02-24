@@ -1,5 +1,21 @@
 import SECS from '../constants/time-constants';
 
+export const singleHoursFromSeconds = (sec) => {
+  if (sec < SECS.TEN_HOURS) {
+    if (sec < SECS.HOUR) return 0;
+    if (sec < SECS.TWO_HOURS) return 1;
+    if (sec < SECS.TWO_HOURS + SECS.HOUR) return 2;
+    if (sec < SECS.FOUR_HOURS) return 3;
+    if (sec < SECS.FOUR_HOURS + SECS.HOUR) return 4;
+    if (sec < SECS.FOUR_HOURS + SECS.TWO_HOURS) return 5;
+    if (sec < SECS.EIGHT_HOURS - SECS.HOUR) return 6;
+    if (sec < SECS.EIGHT_HOURS) return 7;
+    if (sec < SECS.EIGHT_HOURS + SECS.HOUR) return 8;
+    return 9;
+  }
+  return sec % SECS.HOUR;
+};
+
 export const tenMinutesFromSeconds = (sec, sixtyLimit = true) => {
   const limit = sixtyLimit ? SECS.HOUR : SECS.HUNDRED_MINUTES;
   if (sec < limit) {
@@ -48,6 +64,8 @@ export const tenSecondsFromSeconds = (sec) => {
 // expand types of decimals
 export const decimalDigitsFromSeconds = (sec) => {
   let remain = sec;
+  const hours = singleHoursFromSeconds(remain);
+  remain -= (hours * SECS.HOUR);
   const tenMinutes = tenMinutesFromSeconds(remain, false);
   remain -= (tenMinutes * SECS.TEN_MINUTES);
   const minutes = singleMinutesFromSeconds(remain);
@@ -55,6 +73,7 @@ export const decimalDigitsFromSeconds = (sec) => {
   const tenSeconds = tenSecondsFromSeconds(remain);
   remain -= tenSeconds * 10;
   return {
+    hours,
     tenMinutes,
     minutes,
     tenSeconds,

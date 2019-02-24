@@ -2,6 +2,7 @@ const MONTH = 2592000;
 const WEEK = 604800;
 const DAY = 86400;
 const HALF_DAY = 43200;
+const TEN_HOURS = 36000;
 const EIGHT_HOURS = 28800;
 const FOUR_HOURS = 14400;
 const TWO_HOURS = 7200;
@@ -20,6 +21,7 @@ export default {
   WEEK,
   DAY,
   HALF_DAY,
+  TEN_HOURS,
   EIGHT_HOURS,
   FOUR_HOURS,
   TWO_HOURS,

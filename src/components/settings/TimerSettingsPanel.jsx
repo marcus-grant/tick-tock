@@ -6,15 +6,44 @@ import SettingsRow from './SettingsRow';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 
 class TimerSettingsPanel extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const digits = decimalDigitsFromSeconds(this.props.stopCount);
     this.state = {
-      stopHrs: 0,
-      stopMins: 0,
-      stopSecs: 0,
+      stopHrs: digits.hours,
+      stopMins: (digits.tenMinutes * 10) + digits.minutes,
+      stopSecs: (digits.tenSeconds * 10) + digits.seconds,
     };
     this.handleSettingsSave = this.handleSettingsSave.bind(this);
     this.handleSettingsChange = this.handleSettingsChange.bind(this);
+    this.handleDecrementSetting = this.handleDecrementSetting.bind(this);
+    this.handleIncrementSetting = this.handleIncrementSetting.bind(this);
+  }
+
+  /**
+   * Subtract from one of the setting fields' state.
+   *
+   * @param {string} settingKey settings form item key that changed
+   * @param {number} decrementAmount optional number of whole units to decrement
+   */
+  handleDecrementSetting(settingKey, decrementAmount) {
+    const newValue = this.state[settingKey] - (decrementAmount === undefined ? 1 : decrementAmount);
+    if (this.state[settingKey] !== 0) {
+      this.setState({ ...this.state, [settingKey]: newValue });
+    }
+  }
+
+  /**
+   * Add to one of the setting fields' state.
+   *
+   * @param {string} settingKey settings form item key that changed
+   * @param {number} incrementAmount optional number of whole units to increment
+   */
+  handleIncrementSetting(settingKey, incrementAmount) {
+    const newValue = this.state[settingKey] + (incrementAmount === undefined ? 1 : incrementAmount);
+    if (this.state[settingKey] !== 99) {
+      this.setState({ ...this.state, [settingKey]: newValue });
+    }
   }
 
   /**
@@ -44,14 +73,19 @@ class TimerSettingsPanel extends React.Component {
     const {
       isActive,
     } = this.props;
+    const {
+      // stopHrs,
+      stopMins,
+      stopSecs,
+    } = this.state;
     const timeValidationRules = [
       VALIDATION_RULES.IS_NUM,
       VALIDATION_RULES.IS_INT,
       VALIDATION_RULES.IS_GT_ZERO,
     ];
-    const timeUnits = decimalDigitsFromSeconds(this.props.stopCount);
-    const currentSecs = (timeUnits.tenSeconds * 10) + timeUnits.seconds;
-    const currentMins = (timeUnits.tenMinutes * 10) + timeUnits.minutes;
+    // const timeUnits = decimalDigitsFromSeconds(this.props.stopCount);
+    // const currentSecs = (timeUnits.tenSeconds * 10) + timeUnits.seconds;
+    // const currentMins = (timeUnits.tenMinutes * 10) + timeUnits.minutes;
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
     return (
@@ -61,18 +95,22 @@ class TimerSettingsPanel extends React.Component {
           <SettingsRow
             settingName="Timer (minutes):"
             settingKey="stopMins"
-            placeholder={`${currentMins}`}
+            placeholder={`${stopMins}`}
             onValidatedTextChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
             plusMinus
+            onMinusClick={() => this.handleDecrementSetting('stopMins')}
+            onPlusClick={() => this.handleIncrementSetting('stopMins')}
           />
           <SettingsRow
             settingName="Timer (seconds):"
             settingKey="stopSecs"
-            placeholder={`${currentSecs}`}
+            placeholder={`${stopSecs}`}
             onValidatedTextChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
             plusMinus
+            onMinusClick={() => this.handleDecrementSetting('stopSecs')}
+            onPlusClick={() => this.handleIncrementSetting('stopSecs')}
           />
         </div>
         <div className="clk-wdgt-sets__row--bottom">

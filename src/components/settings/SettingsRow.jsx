@@ -36,7 +36,7 @@ const SettingsRow = ({
   settingKey: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onValidatedTextChange: PropTypes.func.isRequired,
-  validationFuncs: PropTypes.func,
+  validationFuncs: PropTypes.arrayOf(PropTypes.func),
   plusMinus: PropTypes.bool,
   onPlusClick: PropTypes.func,
   onMinusClick: PropTypes.func,
