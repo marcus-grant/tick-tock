@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VALIDATION_RULES } from '../ValidatedTextField';
 import SettingsRow from './SettingsRow';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
+import notify from '../../util/notifications';
 
 class TimerSettingsPanel extends React.Component {
   constructor(props) {
@@ -121,6 +122,7 @@ class TimerSettingsPanel extends React.Component {
             onClick={this.props.onCancel}
           >Cancel
           </button>
+          <button onClick={() => notify('hello', 'this is a message')}>Notify</button>
         </div>
       </div>
     );
