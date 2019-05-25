@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 
 import { VALIDATION_RULES } from '../ValidatedTextField';
 import SettingsRow from './SettingsRow';
-import {
-  sendNotification,
-  checkNotificationPermissionsAndRespond,
-} from '../../util/notifications';
+import Notify from '../../util/notifications';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 
 class TimerSettingsPanel extends React.Component {
@@ -87,9 +84,8 @@ class TimerSettingsPanel extends React.Component {
       VALIDATION_RULES.IS_INT,
       VALIDATION_RULES.IS_GT_ZERO,
     ];
-    const notify = () => {
-      checkNotificationPermissionsAndRespond()
-    };
+    const notifMsg = 'Timer has come to an end!';
+    const notify = () => Notify.notifyTimerWithBody(notifMsg);
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
     return (
@@ -125,7 +121,7 @@ class TimerSettingsPanel extends React.Component {
           </button>
           <button
             className={buttonClass}
-            onClick={mainNotification}
+            onClick={notify}
           >Notify
           </button>
           <button
