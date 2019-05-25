@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { VALIDATION_RULES } from '../ValidatedTextField';
 import SettingsRow from './SettingsRow';
+import { mainNotification } from '../../util/notifications';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
 
 class TimerSettingsPanel extends React.Component {
@@ -115,6 +116,11 @@ class TimerSettingsPanel extends React.Component {
             className={buttonClass}
             onClick={isActive ? () => {} : this.handleSettingsSave}
           >Save
+          </button>
+          <button
+            className={buttonClass}
+            onClick={mainNotification}
+          >Notify
           </button>
           <button
             className="clk-wdgt-sets__cancel"
