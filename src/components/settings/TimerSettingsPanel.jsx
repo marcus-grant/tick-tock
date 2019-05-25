@@ -86,6 +86,10 @@ class TimerSettingsPanel extends React.Component {
     ];
     const buttonClass =
       `clk-wdgt-sets__save${isActive ? '' : '--disabled'}`;
+    const notificationOptions = {
+      body: 'This is a notification body',
+      action: null,
+    };
     return (
       <div className="clk-wdgt-sets__panel">
         <div className="clk-wdgt-sets_wrpr">
@@ -122,7 +126,7 @@ class TimerSettingsPanel extends React.Component {
             onClick={this.props.onCancel}
           >Cancel
           </button>
-          <button onClick={() => notify('hello', 'this is a message')}>Notify</button>
+          <button onClick={() => notify('hello', notificationOptions)}>Notify</button>
         </div>
       </div>
     );

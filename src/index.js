@@ -12,6 +12,7 @@ import {
 
 // Only importing one project-created component, the main App container.
 import App from './containers/App';
+import * as serviceWorker from './util/service-worker';
 
 // Import the global stylesheet using webpack loaders
 import './styles/main.scss';
@@ -19,6 +20,9 @@ import './styles/main.scss';
 // Prepare the FontAwesome icons library
 library.add(faPlay, faPause, faStop);
 
-// Impport Fontawesome Icons as React components whose styles/fonts are loaded
+// Register service worker
+
 
 render(React.createElement(App), document.getElementById('react-root'));
+
+// serviceWorker.register();
