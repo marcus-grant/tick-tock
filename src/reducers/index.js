@@ -2,8 +2,9 @@
 import { combineReducers } from 'redux';
 
 import counters from './counters-reducer';
+import app from './app-reducer';
 
-export default combineReducers({ counters });
+export default combineReducers({ counters, app });
 // TODO: Add a timestamps or some kind of logging state to track timer start/ends,
 // -- pommodoro start/ends along with time they ended, etc.
 // TODO: Add some kind of global state that determines the clocking period.

@@ -2,6 +2,9 @@
 
 // Imported in Actions & Reducers
 // Prevents errors due to typos
+// App State Actions
+export const ENABLE_GLOBAL_NOTIFICATIONS = 'APP_EN_NOTIFS';
+export const DISABLE_GLOBAL_NOTIFICATIONS = 'APP_DIS_NOTIFS';
 
 // Counters
 export const TICK_COUNTER = 'CNT_TCK';
