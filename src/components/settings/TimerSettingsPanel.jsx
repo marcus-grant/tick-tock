@@ -5,7 +5,6 @@ import { VALIDATION_RULES } from '../ValidatedTextField';
 import SettingsRow from './SettingsRow';
 import Notify from '../../util/notifications';
 import { decimalDigitsFromSeconds } from '../../util/second-conversion';
-import notify from '../../util/notifications';
 
 class TimerSettingsPanel extends React.Component {
   constructor(props) {
