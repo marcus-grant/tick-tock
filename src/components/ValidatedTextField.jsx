@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const isNumber = text => !Number.isNaN(text);
 
+// TODO reuse more code, ie isNumber
 const isValidInteger = (text) => {
   const parsedNum = Number.parseInt(text, 10);
   if (Number.isNaN(parsedNum)) return false;

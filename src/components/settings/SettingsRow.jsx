@@ -7,23 +7,52 @@ import {
   PushButtonPlus,
 } from '../controls/clock-widget-buttons';
 
+/**
+ *
+ * @param {string} label displayed label for setting
+ * @param {string} inputKey key associated with data from setting input component
+ * @param {string} placeholder placeholder text on empty input if it has one
+ * @param {[func]} validationFuncs array of functs that must return true, given input call onChange
+ * @param {func} onChange callback for input changed MUST pass validationFuncs as true to call back
+ * @param {func} onChange child components to wrap plus/minus buttons in
+ * @param {func} onIncrement callback to handle clicking on increment
+ * @param {func} onDecrement callback to handle clicking on decrement
+ */
+const plusMinus = InputComponent => ({ children, ...props }) => (
+  <div className="sets-row__input">
+    <PushButtonMinus onClick={props.onDecrement} />
+    <InputComponent {...props} />
+    <PushButtonPlus onClick={props.onIncrement} />
+  </div>
+);
+
+
 // TODO: Rename and general refactor
+/**
+ *
+ * @param {string} label displayed label for setting
+ * @param {string} inputKey key associated with data from setting input component
+ * @param {string} placeholder placeholder text on empty input if it has one
+ * @param {[func]} validationFuncs array of functions that must return true for onchange to call
+ * @param {func} onChange callback for input change and will validate if validationFuncs provided
+ */
 const SettingsRow = ({
-  settingName,
-  settingKey,
+  label,
+  inputKey,
   placeholder,
-  onValidatedTextChange,
+  onChange,
+  // onValidatedTextChange,
   validationFuncs,
-  plusMinus,
-  onPlusClick,
-  onMinusClick,
+  // plusMinus,
+  // onPlusClick,
+  // onMinusClick,
 }) => (
   <div className="clk-wdgt-sets__row">
-    <span>{settingName}</span>
+    <span>{label}</span>
     <div className="sets-row__input">
       {plusMinus && (<PushButtonMinus onClick={onMinusClick} />)}
       <ValidatedTextField
-        fieldKey={settingKey}
+        fieldKey={inputKey}
         placeholder={`${placeholder}`}
         onValidatedTextChange={onValidatedTextChange}
         validationFuncs={validationFuncs}
@@ -32,8 +61,8 @@ const SettingsRow = ({
     </div>
   </div>
 ); SettingsRow.propTypes = {
-  settingName: PropTypes.string,
-  settingKey: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  inputKey: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onValidatedTextChange: PropTypes.func.isRequired,
   validationFuncs: PropTypes.arrayOf(PropTypes.func),
@@ -41,9 +70,8 @@ const SettingsRow = ({
   onPlusClick: PropTypes.func,
   onMinusClick: PropTypes.func,
 }; SettingsRow.defaultProps = {
-  settingName: '',
   placeholder: '',
-  validationFuncs: undefined,
+  validationFuncs: null,
   plusMinus: false,
   onPlusClick: undefined,
   onMinusClick: undefined,
