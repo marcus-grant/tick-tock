@@ -20,6 +20,7 @@ import {
  * @param {func} onDecrement callback to handle clicking on decrement
  */
 // const plusMinus = InputComponent => ({ children, ...props }) => (
+// TODO NOTE handling of props needs to be figured out so props go to both
 const plusMinus = InputComponent => (
   <div className="sets-row__input">
     <PushButtonMinus onClick={props.onDecrement} />
@@ -36,7 +37,7 @@ const plusMinus = InputComponent => (
  * @param {string} inputKey key associated with data from setting input component
  * @param {string} placeholder placeholder text on empty input if it has one
  * @param {[func]} validationFuncs array of functions that must return true for onchange to call
- * @param {func} onChange callback when input changes won't if validationFuncs included
+ * @param {func} onChange callback when input changes won't if validationFuncs included & fail
  * @param {func} onMinusClick callback for a decrementer button on this field
  * @param {func} onPlusClick callback for a incrementer button on this field
  */
@@ -48,6 +49,7 @@ const SettingsRow = ({
   validationFuncs,
   onPlusClick, // TODO consider wrapping these into onChange instead?
   onMinusClick,
+  // onValidatedTextChange,
 }) => (
   <div className="clk-wdgt-sets__row">
     <span>{label}</span>
