@@ -50,7 +50,7 @@ class TimerSettingsPanel extends React.Component {
   /**
    * Updates state based on any changes to any settings field.
    *
-   * @param {object} changedField settings form item that changed
+   * @param {object} changedField settings form item that changed, as changedField.value
    */
   handleSettingsChange(changedField) {
     const value = Number.parseInt(changedField.value, 10);
@@ -97,22 +97,20 @@ class TimerSettingsPanel extends React.Component {
         <div className="clk-wdgt-sets_wrpr">
           {/* <h1>Settings</h1> */}
           <SettingsRow
-            settingName="Timer (minutes):"
-            settingKey="stopMins"
+            label="Timer (minutes):"
+            inputKey="stopMins"
             placeholder={`${stopMins}`}
-            onValidatedTextChange={this.handleSettingsChange}
+            onChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
-            plusMinus
             onMinusClick={() => this.handleDecrementSetting('stopMins')}
             onPlusClick={() => this.handleIncrementSetting('stopMins')}
           />
           <SettingsRow
-            settingName="Timer (seconds):"
-            settingKey="stopSecs"
+            label="Timer (seconds):"
+            inputKey="stopSecs"
             placeholder={`${stopSecs}`}
-            onValidatedTextChange={this.handleSettingsChange}
+            onChange={this.handleSettingsChange}
             validationFuncs={timeValidationRules}
-            plusMinus
             onMinusClick={() => this.handleDecrementSetting('stopSecs')}
             onPlusClick={() => this.handleIncrementSetting('stopSecs')}
           />
